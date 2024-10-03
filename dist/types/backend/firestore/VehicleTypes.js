@@ -1,4 +1,2 @@
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.vehicleTypes = void 0;
-exports.vehicleTypes = ["car", "bike"];
+export const vehicleTypes = ["car", "bike", "bus"];
+//# sourceMappingURL=VehicleTypes.js.map

@@ -8,7 +8,7 @@ export type Vehicle = {
     seats: number;
     doors: string;
     tankVolume?: number;
-    interiorColour: string;
+    interiorColor: string;
     category: string;
     bodyType: string;
     brand: string;

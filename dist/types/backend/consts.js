@@ -1,6 +1,4 @@
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.internalErrorCodes = exports.errorCodes = exports.successCodes = void 0;
-exports.successCodes = [201, 200];
-exports.errorCodes = [404];
-exports.internalErrorCodes = [500];
+export const successCodes = [201, 200];
+export const errorCodes = [404];
+export const internalErrorCodes = [500];
+//# sourceMappingURL=consts.js.map

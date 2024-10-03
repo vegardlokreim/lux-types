@@ -1,7 +1,8 @@
 {
   "name": "lux-types",
   "version": "1.0.0",
-  "main": "index.js",
+  "main": "dist/index.js",
+  "module": "dist/index.mjs",
   "scripts": {
     "build": "tsc",
     "push": "npm run build;"
