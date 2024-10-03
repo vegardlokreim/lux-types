@@ -1,13 +1,30 @@
 {
   "name": "lux-types",
   "version": "1.0.0",
-  "main": "dist/index.js",
-  "module": "dist/index.mjs",
-  "scripts": {
-    "build": "tsc",
-    "push": "npm run build;"
+  "main": "./dist/index.js",
+  "module": "./dist/index.mjs",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.mjs",
+      "require": "./dist/index.js"
+    },
+    "./dist": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.mjs",
+      "require": "./dist/index.js"
+    },
+    "./dist/*": {
+      "types": "./dist/*.d.ts",
+      "import": "./dist/*.mjs",
+      "require": "./dist/*.js"
+    }
   },
-  "types": "dist/index.d.ts",
+  "scripts": {
+    "build": "tsup src/index.ts --format cjs,esm --dts --clean",
+    "prepublishOnly": "npm run build"
+  },
   "keywords": [],
   "author": "",
   "license": "ISC",
@@ -19,6 +36,7 @@
     "firebase": "^10.14.0",
     "firebase-admin": "^12.6.0",
     "firebase-functions": "^6.0.1",
-    "glob": "^11.0.0"
+    "glob": "^11.0.0",
+    "tsup": "^8.3.0"
   }
 }
