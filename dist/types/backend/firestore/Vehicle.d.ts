@@ -6,6 +6,8 @@ export type Vehicle = {
     type: VehicleType;
     transmission: "A" | "M";
     seats: number;
+    doors: string;
+    tankVolume?: number;
     interiorColour: string;
     category: string;
     bodyType: string;
@@ -37,6 +39,8 @@ export type Vehicle = {
     hp: number;
     reservations: Array<Reservation['id']>;
     reservationDocs: Array<Reservation>;
+    fuelType: "gasoline" | "diesel" | "hybrid" | "electric";
+    wd: "front" | "back" | "4WD" | "AWD";
     createdAt: Timestamp;
     updatedAt: Timestamp;
 };

@@ -9,6 +9,8 @@ export type Vehicle = {
 
     transmission: "A" | "M";
     seats: number;
+    doors: string;
+    tankVolume?: number;
     interiorColour: string;
     category: string; // e.g premium
     bodyType: string;  // e.g sport / suv / pick up
@@ -52,6 +54,10 @@ export type Vehicle = {
     reservations: Array<Reservation['id']>
 
     reservationDocs: Array<Reservation> // because of this, we need to have a triggered function that updates this field whenever a reservation is changed
+
+    fuelType: "gasoline" | "diesel" | "hybrid" | "electric"
+
+    wd: "front" | "back" | "4WD" | "AWD"
 
 
     createdAt: Timestamp;
