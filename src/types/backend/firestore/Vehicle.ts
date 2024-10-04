@@ -18,28 +18,16 @@ export type Vehicle = {
     regId: string;
     thumbnail: string; // main image
 
-    tariffs: {
-        PR_DAY: number;
-        PR_HOUR: number;
-        PR_WEEK: number;
-        PR_MONTH: number;
-    }
+    prDay: number;
+    prHour: number;
+    prWeek: number;
+    prMonth: number;
 
     displayTariff: "PR_DAY" | "PR_HOUR" | "PR_WEEK" | "PR_MONTH";
 
-    deliverAt: {
-        address: string;
-        city: string;
-        country: string;
-        zip: string;
-    }
+    deliverAt: string;
 
-    pickupAt: {
-        address: string;
-        city: string;
-        country: string;
-        zip: string;
-    }
+    pickupAt: string;
 
     exteriorColor: string;
 

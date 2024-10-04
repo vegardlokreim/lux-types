@@ -10,9 +10,6 @@ declare const internalErrorCodes: readonly [500];
 
 type ResponseCode = typeof successCodes[number] | typeof errorCodes[number] | typeof internalErrorCodes[number];
 
-declare const vehicleTypes: readonly ["car", "bike", "bus"];
-type VehicleType = typeof vehicleTypes[number];
-
 type User = {
     id: string;
     email: string;
@@ -21,6 +18,41 @@ type User = {
     phone: string;
     birthDate: string;
     reservations: Array<Reservation['id']>;
+    createdAt: Timestamp;
+    updatedAt: Timestamp;
+};
+
+declare const vehicleTypes: readonly ["car", "bike", "bus"];
+type VehicleType = typeof vehicleTypes[number];
+
+type Vehicle = {
+    id: string;
+    type: VehicleType;
+    transmission: "A" | "M";
+    seats: number;
+    doors: string;
+    tankVolume?: number;
+    interiorColor: string;
+    category: string;
+    bodyType: string;
+    brand: string;
+    model: string;
+    year: number;
+    regId: string;
+    thumbnail: string;
+    prDay: number;
+    prHour: number;
+    prWeek: number;
+    prMonth: number;
+    displayTariff: "PR_DAY" | "PR_HOUR" | "PR_WEEK" | "PR_MONTH";
+    deliverAt: string;
+    pickupAt: string;
+    exteriorColor: string;
+    hp: number;
+    reservations: Array<Reservation['id']>;
+    reservationDocs: Array<Reservation>;
+    fuelType: "gasoline" | "diesel" | "hybrid" | "electric";
+    wd: "front" | "back" | "4WD" | "AWD";
     createdAt: Timestamp;
     updatedAt: Timestamp;
 };
@@ -38,48 +70,15 @@ type Reservation = {
     updatedAt: Timestamp;
 };
 
-type Vehicle = {
-    id: string;
-    type: VehicleType;
-    transmission: "A" | "M";
-    seats: number;
-    doors: string;
-    tankVolume?: number;
-    interiorColor: string;
-    category: string;
-    bodyType: string;
-    brand: string;
-    model: string;
-    year: number;
-    regId: string;
-    thumbnail: string;
-    tariffs: {
-        PR_DAY: number;
-        PR_HOUR: number;
-        PR_WEEK: number;
-        PR_MONTH: number;
-    };
-    displayTariff: "PR_DAY" | "PR_HOUR" | "PR_WEEK" | "PR_MONTH";
-    deliverAt: {
-        address: string;
-        city: string;
-        country: string;
-        zip: string;
-    };
-    pickupAt: {
-        address: string;
-        city: string;
-        country: string;
-        zip: string;
-    };
-    exteriorColor: string;
-    hp: number;
-    reservations: Array<Reservation['id']>;
-    reservationDocs: Array<Reservation>;
-    fuelType: "gasoline" | "diesel" | "hybrid" | "electric";
-    wd: "front" | "back" | "4WD" | "AWD";
-    createdAt: Timestamp;
-    updatedAt: Timestamp;
+type GetReservationsParams = {
+    id: User['id'];
+};
+type GetReservationsResponse = {
+    code: ResponseCode;
+    reservations: Array<{
+        reservation: Reservation;
+        vehicle?: Vehicle;
+    }>;
 };
 
 type CreateVehicleParams = Omit<Vehicle, "id" | "createdAt" | "updatedAt">;
@@ -102,17 +101,6 @@ type CreateReservationResponse = {
     code: ResponseCode;
     id: Reservation['id'];
     message: string;
-};
-
-type GetReservationsParams = {
-    id: User['id'];
-};
-type GetReservationsResponse = {
-    code: ResponseCode;
-    reservations: Array<{
-        reservation: Reservation;
-        vehicle?: Vehicle;
-    }>;
 };
 
 declare function callFunction<P, R>(name: string, params?: P): Promise<R>;
