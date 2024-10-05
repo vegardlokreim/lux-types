@@ -1,6 +1,11 @@
 // src/types/backend/firestore/VehicleTypes.ts
 var vehicleTypes = ["car", "bike", "bus"];
 
+// src/functions/timestampToDate.ts
+function timestampToDate(timestamp) {
+  return new Date(timestamp.seconds * 1e3 + timestamp.nanoseconds / 1e6);
+}
+
 // src/functions/callFunction.ts
 import { getFunctions, httpsCallable } from "firebase/functions";
 async function callFunction(name, params) {
@@ -26,6 +31,7 @@ export {
   internalErrorCodes,
   someConst,
   successCodes,
+  timestampToDate,
   vehicleList,
   vehicleTypes
 };

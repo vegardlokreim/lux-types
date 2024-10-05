@@ -12,6 +12,7 @@ export { Reservation } from './types/backend/firestore/Reservation';
 
 
 // functions
+export { timestampToDate } from './functions/timestampToDate';
 export { callFunction } from './functions/callFunction';
 
 
