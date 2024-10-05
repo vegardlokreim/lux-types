@@ -10,20 +10,33 @@ declare const internalErrorCodes: readonly [500];
 
 type ResponseCode = typeof successCodes[number] | typeof errorCodes[number] | typeof internalErrorCodes[number];
 
+declare const vehicleTypes: readonly ["car", "bike", "bus"];
+type VehicleType = typeof vehicleTypes[number];
+
 type User = {
     id: string;
     email: string;
     firstName: string;
     lastName: string;
     phone: string;
-    birthDate: string;
+    birthDate?: string;
     reservations: Array<Reservation['id']>;
     createdAt: Timestamp;
     updatedAt: Timestamp;
 };
 
-declare const vehicleTypes: readonly ["car", "bike", "bus"];
-type VehicleType = typeof vehicleTypes[number];
+type Reservation = {
+    id: string;
+    vehicle: Vehicle['id'];
+    user: User['id'];
+    from: Timestamp;
+    to: Timestamp;
+    subtotal: number;
+    confirmed: boolean;
+    isPaid: boolean;
+    createdAt: Timestamp;
+    updatedAt: Timestamp;
+};
 
 type Vehicle = {
     id: string;
@@ -57,30 +70,6 @@ type Vehicle = {
     updatedAt: Timestamp;
 };
 
-type Reservation = {
-    id: string;
-    vehicle: Vehicle['id'];
-    user: User['id'];
-    from: Timestamp;
-    to: Timestamp;
-    subtotal: number;
-    confirmed: boolean;
-    isPaid: boolean;
-    createdAt: Timestamp;
-    updatedAt: Timestamp;
-};
-
-type GetReservationsParams = {
-    id: User['id'];
-};
-type GetReservationsResponse = {
-    code: ResponseCode;
-    reservations: Array<{
-        reservation: Reservation;
-        vehicle?: Vehicle;
-    }>;
-};
-
 type CreateVehicleParams = Omit<Vehicle, "id" | "createdAt" | "updatedAt">;
 type CreateVehicleResponse = {
     code: ResponseCode;
@@ -101,6 +90,17 @@ type CreateReservationResponse = {
     code: ResponseCode;
     id: Reservation['id'];
     message: string;
+};
+
+type GetReservationsParams = {
+    id: User['id'];
+};
+type GetReservationsResponse = {
+    code: ResponseCode;
+    reservations: Array<{
+        reservation: Reservation;
+        vehicle?: Vehicle;
+    }>;
 };
 
 declare function callFunction<P, R>(name: string, params?: P): Promise<R>;
