@@ -29,6 +29,8 @@ type Reservation = {
     id: string;
     vehicle: Vehicle['id'];
     user: User['id'];
+    vehicleDoc: Vehicle;
+    userDoc: User;
     from: Timestamp;
     to: Timestamp;
     subtotal: number;
