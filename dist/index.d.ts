@@ -105,6 +105,28 @@ type GetReservationsResponse = {
     }>;
 };
 
+declare const vehicleClasses: readonly ["A1", "A", "B", "C1", "C", "D1", "D", "BE", "C1E", "CE", "D1E", "DE", "M", "S", "T"];
+
+type VehicleClasses = typeof vehicleClasses[number];
+type DriversLicense = {
+    id: string;
+    url: string;
+    lastName: string;
+    firstName: string;
+    birthDate: Date;
+    issued: Date;
+    expires: Date;
+    issuedBy: string;
+    pid: string;
+    licenseNumber: string;
+    classes: VehicleClasses[];
+    userId: User['id'];
+    createdAt: Timestamp;
+    updatedAt: Timestamp;
+    isConfirmed: boolean;
+    lastConfirmed: Timestamp;
+};
+
 declare function timestampToDate(timestamp: Timestamp): Date;
 
 declare function formatDate(date: Date, locale: Intl.LocalesArgument, compress?: boolean): string;
@@ -113,6 +135,4 @@ declare function callFunction<P, R>(name: string, params?: P): Promise<R>;
 
 declare const vehicleList: readonly ["type", "someType"];
 
-declare const someConst: string[];
-
-export { type CreateReservationParams, type CreateReservationResponse, type CreateUserParams, type CreateUserResponse, type CreateVehicleParams, type CreateVehicleResponse, type GetReservationsParams, type GetReservationsResponse, type Reservation, type ResponseCode, type Subset, type User, type Vehicle, type VehicleType, callFunction, errorCodes, formatDate, internalErrorCodes, someConst, successCodes, timestampToDate, vehicleList, vehicleTypes };
+export { type CreateReservationParams, type CreateReservationResponse, type CreateUserParams, type CreateUserResponse, type CreateVehicleParams, type CreateVehicleResponse, type DriversLicense, type GetReservationsParams, type GetReservationsResponse, type Reservation, type ResponseCode, type Subset, type User, type Vehicle, type VehicleClasses, type VehicleType, callFunction, errorCodes, formatDate, internalErrorCodes, successCodes, timestampToDate, vehicleClasses, vehicleList, vehicleTypes };
