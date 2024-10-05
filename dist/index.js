@@ -22,6 +22,7 @@ var src_exports = {};
 __export(src_exports, {
   callFunction: () => callFunction,
   errorCodes: () => errorCodes,
+  formatDate: () => formatDate,
   internalErrorCodes: () => internalErrorCodes,
   someConst: () => someConst,
   successCodes: () => successCodes,
@@ -37,6 +38,12 @@ var vehicleTypes = ["car", "bike", "bus"];
 // src/functions/timestampToDate.ts
 function timestampToDate(timestamp) {
   return new Date(timestamp.seconds * 1e3 + timestamp.nanoseconds / 1e6);
+}
+
+// src/functions/formatDate.ts
+function formatDate(date, locale, compress = false) {
+  const options = { year: compress ? "2-digit" : "numeric", month: compress ? "numeric" : "short", day: "2-digit", hour: "numeric", minute: "numeric" };
+  return date.toLocaleDateString(locale, options);
 }
 
 // src/functions/callFunction.ts
@@ -62,6 +69,7 @@ var someConst = ["nabo", "restaurant"];
 0 && (module.exports = {
   callFunction,
   errorCodes,
+  formatDate,
   internalErrorCodes,
   someConst,
   successCodes,

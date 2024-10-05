@@ -13,6 +13,7 @@ export { Reservation } from './types/backend/firestore/Reservation';
 
 // functions
 export { timestampToDate } from './functions/timestampToDate';
+export { formatDate } from './functions/formatDate';
 export { callFunction } from './functions/callFunction';
 
 

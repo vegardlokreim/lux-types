@@ -107,10 +107,12 @@ type GetReservationsResponse = {
 
 declare function timestampToDate(timestamp: Timestamp): Date;
 
+declare function formatDate(date: Date, locale: Intl.LocalesArgument, compress?: boolean): string;
+
 declare function callFunction<P, R>(name: string, params?: P): Promise<R>;
 
 declare const vehicleList: readonly ["type", "someType"];
 
 declare const someConst: string[];
 
-export { type CreateReservationParams, type CreateReservationResponse, type CreateUserParams, type CreateUserResponse, type CreateVehicleParams, type CreateVehicleResponse, type GetReservationsParams, type GetReservationsResponse, type Reservation, type ResponseCode, type Subset, type User, type Vehicle, type VehicleType, callFunction, errorCodes, internalErrorCodes, someConst, successCodes, timestampToDate, vehicleList, vehicleTypes };
+export { type CreateReservationParams, type CreateReservationResponse, type CreateUserParams, type CreateUserResponse, type CreateVehicleParams, type CreateVehicleResponse, type GetReservationsParams, type GetReservationsResponse, type Reservation, type ResponseCode, type Subset, type User, type Vehicle, type VehicleType, callFunction, errorCodes, formatDate, internalErrorCodes, someConst, successCodes, timestampToDate, vehicleList, vehicleTypes };

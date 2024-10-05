@@ -6,6 +6,12 @@ function timestampToDate(timestamp) {
   return new Date(timestamp.seconds * 1e3 + timestamp.nanoseconds / 1e6);
 }
 
+// src/functions/formatDate.ts
+function formatDate(date, locale, compress = false) {
+  const options = { year: compress ? "2-digit" : "numeric", month: compress ? "numeric" : "short", day: "2-digit", hour: "numeric", minute: "numeric" };
+  return date.toLocaleDateString(locale, options);
+}
+
 // src/functions/callFunction.ts
 import { getFunctions, httpsCallable } from "firebase/functions";
 async function callFunction(name, params) {
@@ -28,6 +34,7 @@ var someConst = ["nabo", "restaurant"];
 export {
   callFunction,
   errorCodes,
+  formatDate,
   internalErrorCodes,
   someConst,
   successCodes,
