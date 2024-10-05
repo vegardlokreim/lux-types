@@ -7,7 +7,7 @@ export type User = {
     firstName: string;
     lastName: string;
     phone: string;
-    birthDate: string;
+    birthDate?: string;
     reservations: Array<Reservation['id']>;
     createdAt: Timestamp;
     updatedAt: Timestamp;
