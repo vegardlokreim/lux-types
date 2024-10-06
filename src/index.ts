@@ -1,6 +1,7 @@
 // types
 export { Subset } from './types/comonTypes';
 export { ResponseCode } from './types/backend/ResponseCodes';
+export { UpdateProfileParams, UpdateProfileResponse } from './types/backend/functions/updateProfile';
 export { CreateVehicleParams, CreateVehicleResponse } from './types/backend/functions/createVehicle.types';
 export { CreateUserParams, CreateUserResponse } from './types/backend/functions/createUser.types';
 export { CreateReservationParams, CreateReservationResponse } from './types/backend/functions/createReservation.types';
