@@ -11,4 +11,7 @@ export type User = {
     reservations: Array<Reservation['id']>;
     createdAt: Timestamp;
     updatedAt: Timestamp;
+
+
+    profilePicture?: string;
 }
