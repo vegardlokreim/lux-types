@@ -93,6 +93,14 @@ type UpdateProfileResponse = {
     message: string;
 };
 
+type GetVehicleInfoParams = {
+    regId: Vehicle["regId"];
+};
+type GetVehicleInfoResponse = {
+    code: 200;
+    vehicleInfo: any;
+};
+
 type CreateVehicleParams = Omit<Vehicle, "id" | "createdAt" | "updatedAt">;
 type CreateVehicleResponse = {
     code: ResponseCode;
@@ -156,4 +164,4 @@ declare function callFunction<P, R>(name: string, params?: P): Promise<R>;
 
 declare const vehicleList: readonly ["type", "someType"];
 
-export { type CreateReservationParams, type CreateReservationResponse, type CreateUserParams, type CreateUserResponse, type CreateVehicleParams, type CreateVehicleResponse, type DriversLicense, type FirestoreCollection, type GetReservationsParams, type GetReservationsResponse, type Reservation, type ResponseCode, type Subset, type UpdateProfileParams, type UpdateProfileResponse, type UpdateVehicleParams, type UpdateVehicleResponse, type User, type Vehicle, type VehicleClasses, type VehicleType, callFunction, errorCodes, firestoreCollections, formatDate, internalErrorCodes, successCodes, timestampToDate, vehicleClasses, vehicleList, vehicleTypes };
+export { type CreateReservationParams, type CreateReservationResponse, type CreateUserParams, type CreateUserResponse, type CreateVehicleParams, type CreateVehicleResponse, type DriversLicense, type FirestoreCollection, type GetReservationsParams, type GetReservationsResponse, type GetVehicleInfoParams, type GetVehicleInfoResponse, type Reservation, type ResponseCode, type Subset, type UpdateProfileParams, type UpdateProfileResponse, type UpdateVehicleParams, type UpdateVehicleResponse, type User, type Vehicle, type VehicleClasses, type VehicleType, callFunction, errorCodes, firestoreCollections, formatDate, internalErrorCodes, successCodes, timestampToDate, vehicleClasses, vehicleList, vehicleTypes };
