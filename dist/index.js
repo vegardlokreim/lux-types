@@ -29,6 +29,9 @@ __export(src_exports, {
   successCodes: () => successCodes,
   timestampToDate: () => timestampToDate,
   useFetchDoc: () => useFetchDoc,
+  useFetchDocs: () => useFetchDocs,
+  useFetchDocsWhere: () => useFetchDocsWhere,
+  useScrollToTop: () => useScrollToTop,
   vehicleClasses: () => vehicleClasses,
   vehicleList: () => vehicleList,
   vehicleTypes: () => vehicleTypes
@@ -82,16 +85,62 @@ async function callFunction(name, params) {
   return response.data;
 }
 
-// src/functions/hooks/useFetchDoc.tsx
+// src/functions/hooks/useScrollToTop.tsx
 var import_react = require("react");
-var import_firestore2 = require("firebase/firestore");
-function useFetchDoc(db, collectionName, docId, setData, setError) {
+function useScrollToTop() {
   (0, import_react.useEffect)(() => {
+    window.scrollTo(0, 0);
+  }, []);
+}
+
+// src/functions/hooks/useFetchDocsWhere.tsx
+var import_react2 = require("react");
+function useFetchDocsWhere(db, collectionName, whereClauses, setData, setError) {
+  const fetchDocs = async () => {
+    try {
+      const docs = await getDocsWhere(db, collectionName, whereClauses);
+      setData(docs.map((doc2) => doc2.data));
+    } catch (err) {
+      setError && setError(`Error while fetching docs from collection ${collectionName} where ${JSON.stringify(whereClauses)}. Error: ${err}`);
+    }
+  };
+  (0, import_react2.useEffect)(() => {
+    fetchDocs();
+  }, [collectionName, setData, setError]);
+}
+
+// src/functions/hooks/useFetchDocs.tsx
+var import_react3 = require("react");
+var import_firestore2 = require("firebase/firestore");
+function useFetchDocs(db, collectionName, setData, setError) {
+  const fetchDocs = async () => {
+    try {
+      const snap = await (0, import_firestore2.getDocs)((0, import_firestore2.collection)(db, collectionName));
+      if (snap.docs.length) {
+        setData(snap.docs.map((doc2) => doc2.data()));
+      } else {
+        setData([]);
+        setError(`No documents in ${collectionName}`);
+      }
+    } catch (err) {
+      setError(`Error fetching document: ${err}`);
+    }
+  };
+  (0, import_react3.useEffect)(() => {
+    fetchDocs();
+  }, [collectionName, setData, setError]);
+}
+
+// src/functions/hooks/useFetchDoc.tsx
+var import_react4 = require("react");
+var import_firestore3 = require("firebase/firestore");
+function useFetchDoc(db, collectionName, docId, setData, setError) {
+  (0, import_react4.useEffect)(() => {
     const fetchDocData = async () => {
       try {
         if (!docId) return;
-        const docRef = (0, import_firestore2.doc)(db, collectionName, docId);
-        const docSnapshot = await (0, import_firestore2.getDoc)(docRef);
+        const docRef = (0, import_firestore3.doc)(db, collectionName, docId);
+        const docSnapshot = await (0, import_firestore3.getDoc)(docRef);
         if (docSnapshot.exists()) {
           setData(docSnapshot.data());
         } else {
@@ -127,6 +176,9 @@ var vehicleList = ["type", "someType"];
   successCodes,
   timestampToDate,
   useFetchDoc,
+  useFetchDocs,
+  useFetchDocsWhere,
+  useScrollToTop,
   vehicleClasses,
   vehicleList,
   vehicleTypes

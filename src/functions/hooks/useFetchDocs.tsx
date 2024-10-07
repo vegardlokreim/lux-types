@@ -2,7 +2,7 @@ import { useEffect } from "react";
 import { collection, Firestore, getDocs } from "firebase/firestore";
 import { FirestoreCollection } from "../../types/comonTypes";
 
-function useFetchDocs<T>(
+export function useFetchDocs<T>(
     db: Firestore,
     collectionName: FirestoreCollection,
     setData: React.Dispatch<React.SetStateAction<T[]>>,
@@ -27,5 +27,3 @@ function useFetchDocs<T>(
         fetchDocs();
     }, [collectionName, setData, setError]);
 }
-
-export default useFetchDocs;

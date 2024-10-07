@@ -21,6 +21,9 @@ export { timestampToDate } from './functions/timestampToDate';
 export { getDocsWhere } from './functions/getDocsWhere';
 export { formatDate } from './functions/formatDate';
 export { callFunction } from './functions/callFunction';
+export { useScrollToTop } from './functions/hooks/useScrollToTop';
+export { useFetchDocsWhere } from './functions/hooks/useFetchDocsWhere';
+export { useFetchDocs } from './functions/hooks/useFetchDocs';
 export { useFetchDoc } from './functions/hooks/useFetchDoc';
 
 

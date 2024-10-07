@@ -3,7 +3,7 @@ import { getDocsWhere, WhereClause } from '../getDocsWhere';
 import { Firestore } from 'firebase/firestore';
 import { FirestoreCollection } from '../../types/comonTypes';
 
-function useFetchDocsWhere<T>(
+export function useFetchDocsWhere<T>(
     db: Firestore,
     collectionName: FirestoreCollection,
     whereClauses: WhereClause<T>[],
@@ -24,5 +24,3 @@ function useFetchDocsWhere<T>(
         fetchDocs();
     }, [collectionName, setData, setError]);
 }
-
-export default useFetchDocsWhere;

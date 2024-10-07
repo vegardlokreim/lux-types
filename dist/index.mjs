@@ -45,11 +45,57 @@ async function callFunction(name, params) {
   return response.data;
 }
 
-// src/functions/hooks/useFetchDoc.tsx
+// src/functions/hooks/useScrollToTop.tsx
 import { useEffect } from "react";
+function useScrollToTop() {
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
+}
+
+// src/functions/hooks/useFetchDocsWhere.tsx
+import { useEffect as useEffect2 } from "react";
+function useFetchDocsWhere(db, collectionName, whereClauses, setData, setError) {
+  const fetchDocs = async () => {
+    try {
+      const docs = await getDocsWhere(db, collectionName, whereClauses);
+      setData(docs.map((doc2) => doc2.data));
+    } catch (err) {
+      setError && setError(`Error while fetching docs from collection ${collectionName} where ${JSON.stringify(whereClauses)}. Error: ${err}`);
+    }
+  };
+  useEffect2(() => {
+    fetchDocs();
+  }, [collectionName, setData, setError]);
+}
+
+// src/functions/hooks/useFetchDocs.tsx
+import { useEffect as useEffect3 } from "react";
+import { collection as collection2, getDocs as getDocs2 } from "firebase/firestore";
+function useFetchDocs(db, collectionName, setData, setError) {
+  const fetchDocs = async () => {
+    try {
+      const snap = await getDocs2(collection2(db, collectionName));
+      if (snap.docs.length) {
+        setData(snap.docs.map((doc2) => doc2.data()));
+      } else {
+        setData([]);
+        setError(`No documents in ${collectionName}`);
+      }
+    } catch (err) {
+      setError(`Error fetching document: ${err}`);
+    }
+  };
+  useEffect3(() => {
+    fetchDocs();
+  }, [collectionName, setData, setError]);
+}
+
+// src/functions/hooks/useFetchDoc.tsx
+import { useEffect as useEffect4 } from "react";
 import { doc, getDoc } from "firebase/firestore";
 function useFetchDoc(db, collectionName, docId, setData, setError) {
-  useEffect(() => {
+  useEffect4(() => {
     const fetchDocData = async () => {
       try {
         if (!docId) return;
@@ -89,6 +135,9 @@ export {
   successCodes,
   timestampToDate,
   useFetchDoc,
+  useFetchDocs,
+  useFetchDocsWhere,
+  useScrollToTop,
   vehicleClasses,
   vehicleList,
   vehicleTypes
