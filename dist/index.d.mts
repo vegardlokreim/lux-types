@@ -13,6 +13,36 @@ type ResponseCode = typeof successCodes[number] | typeof errorCodes[number] | ty
 declare const vehicleTypes: readonly ["car", "bike", "bus"];
 type VehicleType = typeof vehicleTypes[number];
 
+type User = {
+    id: string;
+    email: string;
+    firstName: string;
+    lastName: string;
+    phone: string;
+    birthDate?: string;
+    reservations: Array<Reservation['id']>;
+    reservationDocs: Array<Reservation>;
+    createdAt: Timestamp;
+    updatedAt: Timestamp;
+    profilePicture?: string;
+    clv?: number;
+};
+
+type Reservation = {
+    id: string;
+    vehicle: Vehicle['id'];
+    user: User['id'];
+    vehicleDoc: Vehicle;
+    userDoc: User;
+    from: Timestamp;
+    to: Timestamp;
+    subtotal: number;
+    confirmed: boolean;
+    isPaid: boolean;
+    createdAt: Timestamp;
+    updatedAt: Timestamp;
+};
+
 type Vehicle = {
     id: string;
     type: VehicleType;
@@ -45,34 +75,13 @@ type Vehicle = {
     updatedAt: Timestamp;
 };
 
-type Reservation = {
-    id: string;
-    vehicle: Vehicle['id'];
-    user: User['id'];
-    vehicleDoc: Vehicle;
-    userDoc: User;
-    from: Timestamp;
-    to: Timestamp;
-    subtotal: number;
-    confirmed: boolean;
-    isPaid: boolean;
-    createdAt: Timestamp;
-    updatedAt: Timestamp;
+type UpdateVehicleParams = {
+    id: Vehicle['id'];
+    vehicleData: Omit<Subset<Vehicle>, "id" | "createdAt" | "updatedAt">;
 };
-
-type User = {
-    id: string;
-    email: string;
-    firstName: string;
-    lastName: string;
-    phone: string;
-    birthDate?: string;
-    reservations: Array<Reservation['id']>;
-    reservationDocs: Array<Reservation>;
-    createdAt: Timestamp;
-    updatedAt: Timestamp;
-    profilePicture?: string;
-    clv?: number;
+type UpdateVehicleResponse = {
+    code: ResponseCode;
+    message: string;
 };
 
 type UpdateProfileParams = {
@@ -147,4 +156,4 @@ declare function callFunction<P, R>(name: string, params?: P): Promise<R>;
 
 declare const vehicleList: readonly ["type", "someType"];
 
-export { type CreateReservationParams, type CreateReservationResponse, type CreateUserParams, type CreateUserResponse, type CreateVehicleParams, type CreateVehicleResponse, type DriversLicense, type GetReservationsParams, type GetReservationsResponse, type Reservation, type ResponseCode, type Subset, type UpdateProfileParams, type UpdateProfileResponse, type User, type Vehicle, type VehicleClasses, type VehicleType, callFunction, errorCodes, formatDate, internalErrorCodes, successCodes, timestampToDate, vehicleClasses, vehicleList, vehicleTypes };
+export { type CreateReservationParams, type CreateReservationResponse, type CreateUserParams, type CreateUserResponse, type CreateVehicleParams, type CreateVehicleResponse, type DriversLicense, type GetReservationsParams, type GetReservationsResponse, type Reservation, type ResponseCode, type Subset, type UpdateProfileParams, type UpdateProfileResponse, type UpdateVehicleParams, type UpdateVehicleResponse, type User, type Vehicle, type VehicleClasses, type VehicleType, callFunction, errorCodes, formatDate, internalErrorCodes, successCodes, timestampToDate, vehicleClasses, vehicleList, vehicleTypes };
