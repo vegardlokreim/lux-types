@@ -13,10 +13,12 @@ export { Vehicle } from './types/backend/firestore/Vehicle';
 export { User } from './types/backend/firestore/User';
 export { Reservation } from './types/backend/firestore/Reservation';
 export { VehicleClasses, DriversLicense } from './types/backend/firestore/DriversLicense';
+export { WhereFilterOpType, WhereClause } from './functions/getDocsWhere';
 
 
 // functions
 export { timestampToDate } from './functions/timestampToDate';
+export { getDocsWhere } from './functions/getDocsWhere';
 export { formatDate } from './functions/formatDate';
 export { callFunction } from './functions/callFunction';
 

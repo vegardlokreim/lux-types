@@ -1,6 +1,30 @@
 // src/types/backend/firestore/VehicleTypes.ts
 var vehicleTypes = ["car", "bike", "bus"];
 
+// src/functions/getDocsWhere.ts
+import { collection, getDocs, query, where } from "firebase/firestore";
+async function getDocsWhere(db, collectionName, whereClauses, dontThrow = true) {
+  const collectionRef = collection(db, collectionName);
+  let q = query(collectionRef);
+  whereClauses.forEach(([field, op, value]) => {
+    q = query(q, where(field, op, value));
+  });
+  try {
+    const querySnapshot = await getDocs(q);
+    if (querySnapshot.empty && !dontThrow) throw new Error(`No documents found in collection ${collectionName} with the provided criteria`);
+    return querySnapshot.docs.map((doc) => ({
+      ref: doc,
+      data: doc.data()
+    }));
+  } catch (error) {
+    if (dontThrow) {
+      console.warn(`Error fetching documents from collection ${collectionName}:`, error);
+      return [];
+    }
+    throw error;
+  }
+}
+
 // src/functions/timestampToDate.ts
 function timestampToDate(timestamp) {
   return new Date(timestamp.seconds * 1e3 + timestamp.nanoseconds / 1e6);
@@ -37,6 +61,7 @@ export {
   errorCodes,
   firestoreCollections,
   formatDate,
+  getDocsWhere,
   internalErrorCodes,
   successCodes,
   timestampToDate,
