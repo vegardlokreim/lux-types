@@ -165,7 +165,7 @@ type ReturnType<DocumentType> = Promise<{
     ref: QueryDocumentSnapshot<DocumentData, DocumentData>;
     data: DocumentType;
 }[]>;
-declare function getDocsWhere<DocumentType>(db: Firestore, collectionName: FirestoreCollection, whereClauses: WhereClause<DocumentType>[], dontThrow?: boolean): Promise<ReturnType<DocumentType>>;
+declare function getDocsWhere<DocumentType>(db: Firestore, collectionName: FirestoreCollection, whereClauses: WhereClause<DocumentType>[], dontThrow?: boolean): ReturnType<DocumentType>;
 
 declare function timestampToDate(timestamp: Timestamp): Date;
 

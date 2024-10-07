@@ -9,7 +9,7 @@ export type WhereClause<T> = { [K in keyof T]: [K, WhereFilterOpType<T[K]>, T[K]
 type ReturnType<DocumentType> = Promise<{ ref: QueryDocumentSnapshot<DocumentData, DocumentData>; data: DocumentType }[]>
 
 
-export async function getDocsWhere<DocumentType>(db: Firestore, collectionName: FirestoreCollection, whereClauses: WhereClause<DocumentType>[], dontThrow = true): Promise<ReturnType<DocumentType>> {
+export async function getDocsWhere<DocumentType>(db: Firestore, collectionName: FirestoreCollection, whereClauses: WhereClause<DocumentType>[], dontThrow = true): ReturnType<DocumentType> {
     const collectionRef = collection(db, collectionName);
 
     let q = query(collectionRef);
