@@ -9,9 +9,9 @@ export type User = {
     phone: string;
     birthDate?: string;
     reservations: Array<Reservation['id']>;
+    reservationDocs: Array<Reservation>;
     createdAt: Timestamp;
     updatedAt: Timestamp;
-
 
     profilePicture?: string;
 }
