@@ -3,7 +3,7 @@ import { doc, Firestore, getDoc } from "firebase/firestore";
 import { FirestoreCollection } from "../../types/comonTypes";
 
 // Hook for fetching and setting Firestore document data
-export default function useFetchDoc<T>(
+export function useFetchDoc<T>(
     db: Firestore,
     collectionName: FirestoreCollection,
     docId: string | undefined,

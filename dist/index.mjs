@@ -12,9 +12,9 @@ async function getDocsWhere(db, collectionName, whereClauses, dontThrow = true) 
   try {
     const querySnapshot = await getDocs(q);
     if (querySnapshot.empty && !dontThrow) throw new Error(`No documents found in collection ${collectionName} with the provided criteria`);
-    return querySnapshot.docs.map((doc) => ({
-      ref: doc,
-      data: doc.data()
+    return querySnapshot.docs.map((doc2) => ({
+      ref: doc2,
+      data: doc2.data()
     }));
   } catch (error) {
     if (dontThrow) {
@@ -45,6 +45,29 @@ async function callFunction(name, params) {
   return response.data;
 }
 
+// src/functions/hooks/useFetchDoc.tsx
+import { useEffect } from "react";
+import { doc, getDoc } from "firebase/firestore";
+function useFetchDoc(db, collectionName, docId, setData, setError) {
+  useEffect(() => {
+    const fetchDocData = async () => {
+      try {
+        if (!docId) return;
+        const docRef = doc(db, collectionName, docId);
+        const docSnapshot = await getDoc(docRef);
+        if (docSnapshot.exists()) {
+          setData(docSnapshot.data());
+        } else {
+          setError && setError(`Document with ID ${docId} not found in ${collectionName}`);
+        }
+      } catch (err) {
+        setError && setError(`Error fetching document: ${err}`);
+      }
+    };
+    fetchDocData();
+  }, [docId, collectionName, setData, setError]);
+}
+
 // src/types/backend/consts.ts
 var successCodes = [201, 200];
 var errorCodes = [404];
@@ -65,6 +88,7 @@ export {
   internalErrorCodes,
   successCodes,
   timestampToDate,
+  useFetchDoc,
   vehicleClasses,
   vehicleList,
   vehicleTypes

@@ -28,6 +28,7 @@ __export(src_exports, {
   internalErrorCodes: () => internalErrorCodes,
   successCodes: () => successCodes,
   timestampToDate: () => timestampToDate,
+  useFetchDoc: () => useFetchDoc,
   vehicleClasses: () => vehicleClasses,
   vehicleList: () => vehicleList,
   vehicleTypes: () => vehicleTypes
@@ -48,9 +49,9 @@ async function getDocsWhere(db, collectionName, whereClauses, dontThrow = true) 
   try {
     const querySnapshot = await (0, import_firestore.getDocs)(q);
     if (querySnapshot.empty && !dontThrow) throw new Error(`No documents found in collection ${collectionName} with the provided criteria`);
-    return querySnapshot.docs.map((doc) => ({
-      ref: doc,
-      data: doc.data()
+    return querySnapshot.docs.map((doc2) => ({
+      ref: doc2,
+      data: doc2.data()
     }));
   } catch (error) {
     if (dontThrow) {
@@ -81,6 +82,29 @@ async function callFunction(name, params) {
   return response.data;
 }
 
+// src/functions/hooks/useFetchDoc.tsx
+var import_react = require("react");
+var import_firestore2 = require("firebase/firestore");
+function useFetchDoc(db, collectionName, docId, setData, setError) {
+  (0, import_react.useEffect)(() => {
+    const fetchDocData = async () => {
+      try {
+        if (!docId) return;
+        const docRef = (0, import_firestore2.doc)(db, collectionName, docId);
+        const docSnapshot = await (0, import_firestore2.getDoc)(docRef);
+        if (docSnapshot.exists()) {
+          setData(docSnapshot.data());
+        } else {
+          setError && setError(`Document with ID ${docId} not found in ${collectionName}`);
+        }
+      } catch (err) {
+        setError && setError(`Error fetching document: ${err}`);
+      }
+    };
+    fetchDocData();
+  }, [docId, collectionName, setData, setError]);
+}
+
 // src/types/backend/consts.ts
 var successCodes = [201, 200];
 var errorCodes = [404];
@@ -102,6 +126,7 @@ var vehicleList = ["type", "someType"];
   internalErrorCodes,
   successCodes,
   timestampToDate,
+  useFetchDoc,
   vehicleClasses,
   vehicleList,
   vehicleTypes

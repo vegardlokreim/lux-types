@@ -7,8 +7,8 @@ const ts = require('typescript');
 const srcDir = path.join(__dirname, 'src');
 const indexFilePath = path.join(srcDir, 'index.ts');
 
-// Find all .ts files in src/types, src/functions, src/consts, and their subdirectories
-const files = glob.sync('{types,functions,consts}/**/*.ts', { cwd: srcDir });
+// Find all .ts and .tsx files in src/types, src/functions, src/consts, and their subdirectories
+const files = glob.sync('{types,functions,consts}/**/*.{ts,tsx}', { cwd: srcDir });
 
 // Function to extract exports from TypeScript files
 function extractExports(filePath) {
@@ -99,17 +99,17 @@ files.forEach((file) => {
     const { types, functions, consts, duplicatedConsts } = extractExports(fullPath);
 
     if (types.length > 0) {
-        const relativePath = './' + path.relative(srcDir, fullPath).replace(/\\/g, '/').replace('.ts', '');
+        const relativePath = './' + path.relative(srcDir, fullPath).replace(/\\/g, '/').replace(/\.(ts|tsx)$/, '');
         typeExportLines.push(`export { ${types.join(', ')} } from '${relativePath}';`);
     }
 
     if (functions.length > 0) {
-        const relativePath = './' + path.relative(srcDir, fullPath).replace(/\\/g, '/').replace('.ts', '');
+        const relativePath = './' + path.relative(srcDir, fullPath).replace(/\\/g, '/').replace(/\.(ts|tsx)$/, '');
         functionExportLines.push(`export { ${functions.join(', ')} } from '${relativePath}';`);
     }
 
     if (consts.length > 0) {
-        const relativePath = './' + path.relative(srcDir, fullPath).replace(/\\/g, '/').replace('.ts', '');
+        const relativePath = './' + path.relative(srcDir, fullPath).replace(/\\/g, '/').replace(/\.(ts|tsx)$/, '');
         constExportLines.push(`export { ${consts.join(', ')} } from '${relativePath}';`);
     }
 

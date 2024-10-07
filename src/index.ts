@@ -21,6 +21,7 @@ export { timestampToDate } from './functions/timestampToDate';
 export { getDocsWhere } from './functions/getDocsWhere';
 export { formatDate } from './functions/formatDate';
 export { callFunction } from './functions/callFunction';
+export { useFetchDoc } from './functions/hooks/useFetchDoc';
 
 
 // consts
