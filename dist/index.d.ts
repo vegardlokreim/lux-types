@@ -72,6 +72,7 @@ type User = {
     createdAt: Timestamp;
     updatedAt: Timestamp;
     profilePicture?: string;
+    clv?: number;
 };
 
 type UpdateProfileParams = {

@@ -14,4 +14,6 @@ export type User = {
     updatedAt: Timestamp;
 
     profilePicture?: string;
+
+    clv?: number; // increments when user adds reservation, decrements when reservation is cancelled
 }
