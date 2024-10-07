@@ -1,5 +1,5 @@
 // types
-export { Subset } from './types/comonTypes';
+export { Subset, FirestoreCollection } from './types/comonTypes';
 export { ResponseCode } from './types/backend/ResponseCodes';
 export { UpdateVehicleParams, UpdateVehicleResponse } from './types/backend/functions/updateVehicle';
 export { UpdateProfileParams, UpdateProfileResponse } from './types/backend/functions/updateProfile';
@@ -21,7 +21,7 @@ export { callFunction } from './functions/callFunction';
 
 
 // consts
-export { successCodes, errorCodes, internalErrorCodes } from './types/backend/consts';
+export { successCodes, errorCodes, internalErrorCodes, firestoreCollections } from './types/backend/consts';
 export { vehicleTypes } from './types/backend/firestore/VehicleTypes';
 export { vehicleClasses } from './consts/vehicleClasses';
 export { vehicleList } from './consts/vehicles/vehicleList';

@@ -22,6 +22,7 @@ var src_exports = {};
 __export(src_exports, {
   callFunction: () => callFunction,
   errorCodes: () => errorCodes,
+  firestoreCollections: () => firestoreCollections,
   formatDate: () => formatDate,
   internalErrorCodes: () => internalErrorCodes,
   successCodes: () => successCodes,
@@ -59,6 +60,7 @@ async function callFunction(name, params) {
 var successCodes = [201, 200];
 var errorCodes = [404];
 var internalErrorCodes = [500];
+var firestoreCollections = ["users", "usersPermissions", "vehicles", "reservations", "driversLicenses"];
 
 // src/consts/vehicleClasses.ts
 var vehicleClasses = ["A1", "A", "B", "C1", "C", "D1", "D", "BE", "C1E", "CE", "D1E", "DE", "M", "S", "T"];
@@ -69,6 +71,7 @@ var vehicleList = ["type", "someType"];
 0 && (module.exports = {
   callFunction,
   errorCodes,
+  firestoreCollections,
   formatDate,
   internalErrorCodes,
   successCodes,

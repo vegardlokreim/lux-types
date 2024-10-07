@@ -1,12 +1,14 @@
 import { Timestamp } from 'firebase-admin/firestore';
 
-type Subset<T> = {
-    [A in keyof T]?: T[A] extends object ? Subset<T[A]> : T[A] extends object | null ? Subset<T[A]> | null : T[A] extends object | null | undefined ? Subset<T[A]> | null | undefined : T[A];
-};
-
 declare const successCodes: readonly [201, 200];
 declare const errorCodes: readonly [404];
 declare const internalErrorCodes: readonly [500];
+declare const firestoreCollections: readonly ["users", "usersPermissions", "vehicles", "reservations", "driversLicenses"];
+
+type Subset<T> = {
+    [A in keyof T]?: T[A] extends object ? Subset<T[A]> : T[A] extends object | null ? Subset<T[A]> | null : T[A] extends object | null | undefined ? Subset<T[A]> | null | undefined : T[A];
+};
+type FirestoreCollection = typeof firestoreCollections[number];
 
 type ResponseCode = typeof successCodes[number] | typeof errorCodes[number] | typeof internalErrorCodes[number];
 
@@ -154,4 +156,4 @@ declare function callFunction<P, R>(name: string, params?: P): Promise<R>;
 
 declare const vehicleList: readonly ["type", "someType"];
 
-export { type CreateReservationParams, type CreateReservationResponse, type CreateUserParams, type CreateUserResponse, type CreateVehicleParams, type CreateVehicleResponse, type DriversLicense, type GetReservationsParams, type GetReservationsResponse, type Reservation, type ResponseCode, type Subset, type UpdateProfileParams, type UpdateProfileResponse, type UpdateVehicleParams, type UpdateVehicleResponse, type User, type Vehicle, type VehicleClasses, type VehicleType, callFunction, errorCodes, formatDate, internalErrorCodes, successCodes, timestampToDate, vehicleClasses, vehicleList, vehicleTypes };
+export { type CreateReservationParams, type CreateReservationResponse, type CreateUserParams, type CreateUserResponse, type CreateVehicleParams, type CreateVehicleResponse, type DriversLicense, type FirestoreCollection, type GetReservationsParams, type GetReservationsResponse, type Reservation, type ResponseCode, type Subset, type UpdateProfileParams, type UpdateProfileResponse, type UpdateVehicleParams, type UpdateVehicleResponse, type User, type Vehicle, type VehicleClasses, type VehicleType, callFunction, errorCodes, firestoreCollections, formatDate, internalErrorCodes, successCodes, timestampToDate, vehicleClasses, vehicleList, vehicleTypes };
