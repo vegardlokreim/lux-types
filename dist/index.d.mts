@@ -21,7 +21,6 @@ type User = {
     phone: string;
     birthDate?: string;
     reservations: Array<Reservation['id']>;
-    reservationDocs: Array<Reservation>;
     createdAt: Timestamp;
     updatedAt: Timestamp;
     profilePicture?: string;
@@ -68,7 +67,6 @@ type Vehicle = {
     exteriorColor: string;
     hp: number;
     reservations: Array<Reservation['id']>;
-    reservationDocs: Array<Reservation>;
     fuelType: "gasoline" | "diesel" | "hybrid" | "electric";
     wd: "front" | "back" | "4WD" | "AWD";
     createdAt: Timestamp;
