@@ -4,7 +4,7 @@ import { WhereFilterOp, Firestore, QueryDocumentSnapshot, DocumentData } from 'f
 declare const successCodes: readonly [201, 200];
 declare const errorCodes: readonly [404];
 declare const internalErrorCodes: readonly [500];
-declare const firestoreCollections: readonly ["users", "usersPermissions", "vehicles", "reservations", "driversLicenses", "usersPermissions"];
+declare const firestoreCollections: readonly ["users", "userPermissions", "vehicles", "reservations", "driversLicenses"];
 
 type Subset<T> = {
     [A in keyof T]?: T[A] extends object ? Subset<T[A]> : T[A] extends object | null ? Subset<T[A]> | null : T[A] extends object | null | undefined ? Subset<T[A]> | null | undefined : T[A];
