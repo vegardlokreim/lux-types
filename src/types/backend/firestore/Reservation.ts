@@ -5,8 +5,8 @@ import { Vehicle } from "./Vehicle";
 export type Reservation = {
     id: string;
 
-    vehicle: Vehicle['id'];
-    user: User['id'];
+    vehicle: Vehicle["id"];
+    user: User["id"];
 
     vehicleDoc: Vehicle;
     userDoc: User;
@@ -24,4 +24,5 @@ export type Reservation = {
     createdAt: Timestamp;
 
     updatedAt: Timestamp;
+
 }

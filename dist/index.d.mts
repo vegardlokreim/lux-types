@@ -32,8 +32,8 @@ type User = {
 
 type Reservation = {
     id: string;
-    vehicle: Vehicle['id'];
-    user: User['id'];
+    vehicle: Vehicle["id"];
+    user: User["id"];
     vehicleDoc: Vehicle;
     userDoc: User;
     from: Timestamp;
@@ -167,7 +167,7 @@ type ReturnType<DocumentType> = Promise<{
 }[]>;
 declare function getDocsWhere<DocumentType>(db: Firestore, collectionName: FirestoreCollection, whereClauses: WhereClause<DocumentType>[], dontThrow?: boolean): ReturnType<DocumentType>;
 
-declare function timestampToDate(timestamp: Timestamp): Date;
+declare function timestampToDate(timestamp: Timestamp | undefined | null, throwError?: boolean): Date;
 
 declare function formatDate(date: Date, locale: Intl.LocalesArgument, compress?: boolean): string;
 
