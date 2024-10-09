@@ -1,5 +1,6 @@
 import { Timestamp } from 'firebase-admin/firestore';
 import { WhereFilterOp, Firestore, QueryDocumentSnapshot, DocumentData } from 'firebase/firestore';
+import React$1 from 'react';
 
 declare const successCodes: readonly [201, 200];
 declare const errorCodes: readonly [404];
@@ -199,7 +200,7 @@ declare function useScrollToTop(): void;
 
 declare function useFetchDocsWhere<T>(db: Firestore, collectionName: FirestoreCollection, whereClauses: WhereClause<T>[], setData: React.Dispatch<React.SetStateAction<T[] | undefined>>, setError?: React.Dispatch<React.SetStateAction<string | undefined>>): void;
 
-declare function useFetchDocs<T>(db: Firestore, collectionName: FirestoreCollection, setData: React.Dispatch<React.SetStateAction<T[]>>, setError: React.Dispatch<React.SetStateAction<string | undefined>>): void;
+declare function useFetchDocs<T>(db: Firestore, collectionName: FirestoreCollection, setData: React$1.Dispatch<React$1.SetStateAction<T[]>> | React$1.Dispatch<React$1.SetStateAction<T[] | undefined>>, setError: React$1.Dispatch<React$1.SetStateAction<string | undefined>>): void;
 
 declare function useFetchDoc<T>(db: Firestore, collectionName: FirestoreCollection, docId: string | undefined, setData: React.Dispatch<React.SetStateAction<T | undefined>>, setError?: React.Dispatch<React.SetStateAction<string | undefined>>): void;
 
