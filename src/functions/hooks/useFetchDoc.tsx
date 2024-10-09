@@ -7,7 +7,7 @@ export function useFetchDoc<T>(
     db: Firestore,
     collectionName: FirestoreCollection,
     docId: string | undefined,
-    setData: React.Dispatch<React.SetStateAction<any>>,
+    setData: React.Dispatch<React.SetStateAction<T | undefined>>,
     setError?: React.Dispatch<React.SetStateAction<string | undefined>>, // Error state setter
 ) {
     useEffect( () => {

@@ -201,7 +201,7 @@ declare function useFetchDocsWhere<T>(db: Firestore, collectionName: FirestoreCo
 
 declare function useFetchDocs<T>(db: Firestore, collectionName: FirestoreCollection, setData: React.Dispatch<React.SetStateAction<T[]>>, setError: React.Dispatch<React.SetStateAction<string | undefined>>): void;
 
-declare function useFetchDoc<T>(db: Firestore, collectionName: FirestoreCollection, docId: string | undefined, setData: React.Dispatch<React.SetStateAction<any>>, setError?: React.Dispatch<React.SetStateAction<string | undefined>>): void;
+declare function useFetchDoc<T>(db: Firestore, collectionName: FirestoreCollection, docId: string | undefined, setData: React.Dispatch<React.SetStateAction<T | undefined>>, setError?: React.Dispatch<React.SetStateAction<string | undefined>>): void;
 
 declare const vehicleList: readonly ["type", "someType"];
 
