@@ -1,6 +1,7 @@
 import { VehicleType } from "./VehicleTypes";
 import { Reservation } from "./Reservation";
 import { Timestamp } from "firebase-admin/firestore";
+import { Damage } from "./Damage";
 
 export type Vehicle = {
     id: string;
@@ -33,7 +34,7 @@ export type Vehicle = {
 
     hp: number
 
-    reservations: Array<Reservation['id']>
+    reservations: Array<Reservation["id"]>
 
     fuelType: "gasoline" | "diesel" | "hybrid" | "electric"
 
@@ -42,5 +43,6 @@ export type Vehicle = {
     createdAt: Timestamp;
     updatedAt: Timestamp;
 
+    damages: Array<Damage["id"]>
 
 }
