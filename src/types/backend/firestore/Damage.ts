@@ -15,4 +15,5 @@ export type Damage = {
     locationCode: string; // TODO: maybe make this typesafe at some point?
     images: string[];
     registeredBy: User["id"];
+    vehicleRegId: Vehicle["regId"];
 }

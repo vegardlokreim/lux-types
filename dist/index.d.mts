@@ -59,6 +59,7 @@ type Damage = {
     locationCode: string;
     images: string[];
     registeredBy: User["id"];
+    vehicleRegId: Vehicle["regId"];
 };
 
 type Vehicle = {
