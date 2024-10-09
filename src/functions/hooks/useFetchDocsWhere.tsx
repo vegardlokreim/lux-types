@@ -1,26 +1,27 @@
-import { useEffect } from 'react';
-import { getDocsWhere, WhereClause } from '../getDocsWhere';
-import { Firestore } from 'firebase/firestore';
-import { FirestoreCollection } from '../../types/comonTypes';
+import { useEffect } from "react";
+import { getDocsWhere, WhereClause } from "../getDocsWhere";
+import { Firestore } from "firebase/firestore";
+import { FirestoreCollection } from "../../types/comonTypes";
 
 export function useFetchDocsWhere<T>(
     db: Firestore,
     collectionName: FirestoreCollection,
     whereClauses: WhereClause<T>[],
     setData: React.Dispatch<React.SetStateAction<T[] | undefined>>,
-    setError?: React.Dispatch<React.SetStateAction<string | undefined>> // Error state setter
+    dependencies = [] as any[],
+    setError?: React.Dispatch<React.SetStateAction<string | undefined>>, // Error state setter
 ) {
 
     const fetchDocs = async () => {
         try {
-            const docs = await getDocsWhere<T>(db, collectionName, whereClauses);
-            setData(docs.map(doc => doc.data))
+            const docs = await getDocsWhere<T>( db, collectionName, whereClauses );
+            setData( docs.map( doc => doc.data ) )
         } catch (err) {
-            setError && setError(`Error while fetching docs from collection ${collectionName} where ${JSON.stringify(whereClauses)}. Error: ${err}`)
+            setError && setError( `Error while fetching docs from collection ${ collectionName } where ${ JSON.stringify( whereClauses ) }. Error: ${ err }` )
         }
     };
 
-    useEffect(() => {
+    useEffect( () => {
         fetchDocs();
-    }, [collectionName, setData, setError]);
+    }, [ collectionName, setData, setError, ...dependencies ] );
 }

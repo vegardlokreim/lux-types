@@ -199,7 +199,7 @@ declare function callFunction<P, R>(name: string, params?: P): Promise<R>;
 
 declare function useScrollToTop(): void;
 
-declare function useFetchDocsWhere<T>(db: Firestore, collectionName: FirestoreCollection, whereClauses: WhereClause<T>[], setData: React.Dispatch<React.SetStateAction<T[] | undefined>>, setError?: React.Dispatch<React.SetStateAction<string | undefined>>): void;
+declare function useFetchDocsWhere<T>(db: Firestore, collectionName: FirestoreCollection, whereClauses: WhereClause<T>[], setData: React.Dispatch<React.SetStateAction<T[] | undefined>>, dependencies?: any[], setError?: React.Dispatch<React.SetStateAction<string | undefined>>): void;
 
 declare function useFetchDocs<T>(db: Firestore, collectionName: FirestoreCollection, setData: React$1.Dispatch<React$1.SetStateAction<T[]>> | React$1.Dispatch<React$1.SetStateAction<T[] | undefined>>, setError: React$1.Dispatch<React$1.SetStateAction<string | undefined>>): void;
 
