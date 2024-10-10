@@ -140,10 +140,10 @@ type CreateUserResponse = {
     message: string;
 };
 
-type CreateReservationParams = Omit<Reservation, "id" | "createdAt" | "updatedAt" | "vehicleDoc" | "userDoc">;
+type CreateReservationParams = Omit<Reservation, "id" | "createdAt" | "updatedAt">;
 type CreateReservationResponse = {
     code: ResponseCode;
-    id: Reservation['id'];
+    id: Reservation["id"];
     message: string;
 };
 
