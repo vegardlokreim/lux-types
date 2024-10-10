@@ -186,6 +186,28 @@ type DriversLicense = {
     lastConfirmed: Timestamp;
 };
 
+type Contract = {
+    id: string;
+    vehicleId: Vehicle["id"];
+    userId: User["id"];
+    signedAt: Timestamp;
+    damages: Damage[];
+    from: Timestamp;
+    to: Timestamp;
+    pickupAt: string;
+    deliverAt: string;
+    duration: {
+        days: number;
+        hours: number;
+    };
+    price: number;
+    insuranceType: string;
+    insuranceCost: number;
+    securityAmount: number;
+    subtotal: number;
+    signatureUrl: string;
+};
+
 type WhereFilterOpType<T> = T extends Array<infer _U> ? "array-contains" | "array-contains-any" | WhereFilterOp : WhereFilterOp;
 type WhereClause<T> = {
     [K in keyof T]: [K, WhereFilterOpType<T[K]>, T[K] extends Array<infer U> ? U : T[K]];
@@ -212,4 +234,4 @@ declare function useFetchDoc<T>(db: Firestore, collectionName: FirestoreCollecti
 
 declare const vehicleList: readonly ["type", "someType"];
 
-export { type CreateDamageParams, type CreateDamageResponse, type CreateReservationParams, type CreateReservationResponse, type CreateUserParams, type CreateUserResponse, type CreateVehicleParams, type CreateVehicleResponse, type Damage, type DriversLicense, type FirestoreCollection, type GetReservationsParams, type GetReservationsResponse, type GetVehicleInfoParams, type GetVehicleInfoResponse, type Reservation, type ResponseCode, type Subset, type UpdateProfileParams, type UpdateProfileResponse, type UpdateVehicleParams, type UpdateVehicleResponse, type User, type Vehicle, type VehicleClasses, type VehicleType, type WhereClause, type WhereFilterOpType, callFunction, errorCodes, firestoreCollections, formatDate, getDocsWhere, internalErrorCodes, successCodes, timestampToDate, useFetchDoc, useFetchDocs, useFetchDocsWhere, useScrollToTop, vehicleClasses, vehicleList, vehicleTypes };
+export { type Contract, type CreateDamageParams, type CreateDamageResponse, type CreateReservationParams, type CreateReservationResponse, type CreateUserParams, type CreateUserResponse, type CreateVehicleParams, type CreateVehicleResponse, type Damage, type DriversLicense, type FirestoreCollection, type GetReservationsParams, type GetReservationsResponse, type GetVehicleInfoParams, type GetVehicleInfoResponse, type Reservation, type ResponseCode, type Subset, type UpdateProfileParams, type UpdateProfileResponse, type UpdateVehicleParams, type UpdateVehicleResponse, type User, type Vehicle, type VehicleClasses, type VehicleType, type WhereClause, type WhereFilterOpType, callFunction, errorCodes, firestoreCollections, formatDate, getDocsWhere, internalErrorCodes, successCodes, timestampToDate, useFetchDoc, useFetchDocs, useFetchDocsWhere, useScrollToTop, vehicleClasses, vehicleList, vehicleTypes };

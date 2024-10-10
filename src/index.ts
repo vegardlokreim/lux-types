@@ -15,6 +15,7 @@ export { User } from './types/backend/firestore/User';
 export { Reservation } from './types/backend/firestore/Reservation';
 export { VehicleClasses, DriversLicense } from './types/backend/firestore/DriversLicense';
 export { Damage } from './types/backend/firestore/Damage';
+export { Contract } from './types/backend/firestore/Contract';
 export { WhereFilterOpType, WhereClause } from './functions/getDocsWhere';
 
 
