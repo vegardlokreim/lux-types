@@ -5,21 +5,29 @@ import { Vehicle } from "./Vehicle";
 export type Reservation = {
     id: string;
 
-    vehicle: Vehicle["id"];
     user: User["id"];
+    vehicle: Vehicle["id"];
 
-    from: Timestamp;
+    userDoc: User;
+    vehicleDoc: Vehicle;
 
-    to: Timestamp;
+    isPaid: boolean;
+    
 
     subtotal: number;
+    securityAmount: number;
 
     confirmed: boolean;
 
-    isPaid: boolean;
+
+    to: Timestamp;
+    from: Timestamp;
+
+    duration: {
+        days: number;
+        hours: number;
+    }
 
     createdAt: Timestamp;
-
     updatedAt: Timestamp;
-
 }

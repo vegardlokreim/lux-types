@@ -4,16 +4,23 @@ import { User } from "./User";
 
 export type Damage = {
     id: string;
-    vehicleId: Vehicle["id"];
+
     userId?: User["id"];
-    createdAt: Timestamp;
-    updatedAt: Timestamp;
-    fixedAt?: Timestamp;
+    vehicleId: Vehicle["id"];
+
     fixed: boolean;
-    description: string;
-    locationOnCar: string;
-    locationCode: string; // TODO: maybe make this typesafe at some point?
+
     images: string[];
+
+    description: string;
+    locationCode: string; // TODO: maybe make this typesafe at some point?
+    locationOnCar: string;
+
+
     registeredBy: User["id"];
     vehicleRegId: Vehicle["regId"];
+
+    fixedAt?: Timestamp;
+    createdAt: Timestamp;
+    updatedAt: Timestamp;
 }

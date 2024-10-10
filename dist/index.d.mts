@@ -20,11 +20,11 @@ type VehicleType = typeof vehicleTypes[number];
 type User = {
     id: string;
     email: string;
+    phone: string;
     firstName: string;
     lastName: string;
-    phone: string;
     birthDate?: string;
-    reservations: Array<Reservation['id']>;
+    reservations: Array<Reservation["id"]>;
     createdAt: Timestamp;
     updatedAt: Timestamp;
     profilePicture?: string;
@@ -33,31 +33,38 @@ type User = {
 
 type Reservation = {
     id: string;
-    vehicle: Vehicle["id"];
     user: User["id"];
-    from: Timestamp;
-    to: Timestamp;
-    subtotal: number;
-    confirmed: boolean;
+    vehicle: Vehicle["id"];
+    userDoc: User;
+    vehicleDoc: Vehicle;
     isPaid: boolean;
+    subtotal: number;
+    securityAmount: number;
+    confirmed: boolean;
+    to: Timestamp;
+    from: Timestamp;
+    duration: {
+        days: number;
+        hours: number;
+    };
     createdAt: Timestamp;
     updatedAt: Timestamp;
 };
 
 type Damage = {
     id: string;
-    vehicleId: Vehicle["id"];
     userId?: User["id"];
-    createdAt: Timestamp;
-    updatedAt: Timestamp;
-    fixedAt?: Timestamp;
+    vehicleId: Vehicle["id"];
     fixed: boolean;
-    description: string;
-    locationOnCar: string;
-    locationCode: string;
     images: string[];
+    description: string;
+    locationCode: string;
+    locationOnCar: string;
     registeredBy: User["id"];
     vehicleRegId: Vehicle["regId"];
+    fixedAt?: Timestamp;
+    createdAt: Timestamp;
+    updatedAt: Timestamp;
 };
 
 type Vehicle = {
@@ -197,7 +204,7 @@ declare function callFunction<P, R>(name: string, params?: P): Promise<R>;
 
 declare function useScrollToTop(): void;
 
-declare function useFetchDocsWhere<T>(db: Firestore, collectionName: FirestoreCollection, whereClauses: WhereClause<T>[], setData: React.Dispatch<React.SetStateAction<T[] | undefined>>, dependencies?: any[], setError?: React.Dispatch<React.SetStateAction<string | undefined>>): void;
+declare function useFetchDocsWhere<T>(db: Firestore, collectionName: FirestoreCollection, whereClauses: WhereClause<T>[], setData: React$1.Dispatch<React$1.SetStateAction<T[] | undefined>>, dependencies?: any[], setError?: React$1.Dispatch<React$1.SetStateAction<string | undefined>>): void;
 
 declare function useFetchDocs<T>(db: Firestore, collectionName: FirestoreCollection, setData: React$1.Dispatch<React$1.SetStateAction<T[]>> | React$1.Dispatch<React$1.SetStateAction<T[] | undefined>>, setError: React$1.Dispatch<React$1.SetStateAction<string | undefined>>): void;
 

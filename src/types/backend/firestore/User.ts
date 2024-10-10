@@ -3,12 +3,17 @@ import { Reservation } from "./Reservation";
 
 export type User = {
     id: string;
+
     email: string;
+    phone: string;
+
     firstName: string;
     lastName: string;
-    phone: string;
+
     birthDate?: string;
-    reservations: Array<Reservation['id']>;
+
+    reservations: Array<Reservation["id"]>;
+
     createdAt: Timestamp;
     updatedAt: Timestamp;
 

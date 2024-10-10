@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import React, { useEffect } from "react";
 import { getDocsWhere, WhereClause } from "../getDocsWhere";
 import { Firestore } from "firebase/firestore";
 import { FirestoreCollection } from "../../types/comonTypes";
