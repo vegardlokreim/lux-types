@@ -164,7 +164,10 @@ type CreateUserResponse = {
     message: string;
 };
 
-type CreateReservationParams = Omit<Reservation, "id" | "createdAt" | "updatedAt">;
+type CreateReservationParams = {
+    reservation: Omit<Reservation, "id" | "createdAt" | "updatedAt">;
+    contract: Omit<Contract, "id">;
+};
 type CreateReservationResponse = {
     code: ResponseCode;
     id: Reservation["id"];

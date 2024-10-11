@@ -1,7 +1,11 @@
 import { Reservation } from "../firestore/Reservation";
 import { ResponseCode } from "../ResponseCodes";
+import { Contract } from "../firestore/Contract";
 
-export type CreateReservationParams = Omit<Reservation, "id" | "createdAt" | "updatedAt">
+export type CreateReservationParams = {
+    reservation: Omit<Reservation, "id" | "createdAt" | "updatedAt">;
+    contract: Omit<Contract, "id">;
+}
 
 export type CreateReservationResponse = {
     code: ResponseCode;
