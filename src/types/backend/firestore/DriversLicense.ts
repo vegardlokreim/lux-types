@@ -3,6 +3,7 @@ import { vehicleClasses } from "../../../consts/vehicleClasses";
 import { User } from "./User";
 
 export type VehicleClasses = typeof vehicleClasses[number]
+
 export type DriversLicense = {
     id: string;
     url: string;
@@ -16,7 +17,7 @@ export type DriversLicense = {
     licenseNumber: string;
     classes: VehicleClasses[];
 
-    userId: User['id']
+    userId: User["id"]
 
     createdAt: Timestamp;
     updatedAt: Timestamp;

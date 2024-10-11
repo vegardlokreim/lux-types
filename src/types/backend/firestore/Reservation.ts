@@ -1,6 +1,7 @@
 import { Timestamp } from "firebase-admin/firestore";
 import { User } from "./User";
 import { Vehicle } from "./Vehicle";
+import { Contract } from "./Contract";
 
 export type Reservation = {
     id: string;
@@ -12,7 +13,7 @@ export type Reservation = {
     vehicleDoc: Vehicle;
 
     isPaid: boolean;
-    
+
 
     subtotal: number;
     securityAmount: number;
@@ -30,4 +31,6 @@ export type Reservation = {
 
     createdAt: Timestamp;
     updatedAt: Timestamp;
+
+    contract?: Contract["id"];
 }

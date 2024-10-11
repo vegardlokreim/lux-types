@@ -2,6 +2,7 @@ import { Vehicle } from "./Vehicle";
 import { User } from "./User";
 import { Timestamp } from "firebase-admin/firestore";
 import { Damage } from "./Damage";
+import { Reservation } from "./Reservation";
 
 export type Contract = {
     id: string;
@@ -34,5 +35,7 @@ export type Contract = {
     subtotal: number;
 
     signatureUrl: string;
+
+    reservation?: Reservation["id"];
 
 }

@@ -31,6 +31,45 @@ type User = {
     clv?: number;
 };
 
+type Damage = {
+    id: string;
+    userId?: User["id"];
+    vehicleId: Vehicle["id"];
+    fixed: boolean;
+    images: string[];
+    description: string;
+    locationCode: string;
+    locationOnCar: string;
+    registeredBy: User["id"];
+    vehicleRegId: Vehicle["regId"];
+    fixedAt?: Timestamp;
+    createdAt: Timestamp;
+    updatedAt: Timestamp;
+};
+
+type Contract = {
+    id: string;
+    vehicleId: Vehicle["id"];
+    userId: User["id"];
+    signedAt: Timestamp;
+    damages: Damage[];
+    from: Timestamp;
+    to: Timestamp;
+    pickupAt: string;
+    deliverAt: string;
+    duration: {
+        days: number;
+        hours: number;
+    };
+    price: number;
+    insuranceType: string;
+    insuranceCost: number;
+    securityAmount: number;
+    subtotal: number;
+    signatureUrl: string;
+    reservation?: Reservation["id"];
+};
+
 type Reservation = {
     id: string;
     user: User["id"];
@@ -49,22 +88,7 @@ type Reservation = {
     };
     createdAt: Timestamp;
     updatedAt: Timestamp;
-};
-
-type Damage = {
-    id: string;
-    userId?: User["id"];
-    vehicleId: Vehicle["id"];
-    fixed: boolean;
-    images: string[];
-    description: string;
-    locationCode: string;
-    locationOnCar: string;
-    registeredBy: User["id"];
-    vehicleRegId: Vehicle["regId"];
-    fixedAt?: Timestamp;
-    createdAt: Timestamp;
-    updatedAt: Timestamp;
+    contract?: Contract["id"];
 };
 
 type Vehicle = {
@@ -179,33 +203,11 @@ type DriversLicense = {
     pid: string;
     licenseNumber: string;
     classes: VehicleClasses[];
-    userId: User['id'];
+    userId: User["id"];
     createdAt: Timestamp;
     updatedAt: Timestamp;
     isConfirmed: boolean;
     lastConfirmed: Timestamp;
-};
-
-type Contract = {
-    id: string;
-    vehicleId: Vehicle["id"];
-    userId: User["id"];
-    signedAt: Timestamp;
-    damages: Damage[];
-    from: Timestamp;
-    to: Timestamp;
-    pickupAt: string;
-    deliverAt: string;
-    duration: {
-        days: number;
-        hours: number;
-    };
-    price: number;
-    insuranceType: string;
-    insuranceCost: number;
-    securityAmount: number;
-    subtotal: number;
-    signatureUrl: string;
 };
 
 type WhereFilterOpType<T> = T extends Array<infer _U> ? "array-contains" | "array-contains-any" | WhereFilterOp : WhereFilterOp;
