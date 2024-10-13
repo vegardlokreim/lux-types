@@ -35,6 +35,10 @@ export type Vehicle = {
     hp: number
 
     reservations: Array<Reservation["id"]>
+    unavailableDates?: Array<{
+        from: Timestamp,
+        to: Timestamp
+    }> // Value set by trigger that listens to reservation creation, gets cleaned up when sends a "delivery form"
 
     fuelType: "gasoline" | "diesel" | "hybrid" | "electric"
 

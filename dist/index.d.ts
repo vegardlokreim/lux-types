@@ -116,6 +116,10 @@ type Vehicle = {
     exteriorColor: string;
     hp: number;
     reservations: Array<Reservation["id"]>;
+    unavailableDates?: Array<{
+        from: Timestamp;
+        to: Timestamp;
+    }>;
     fuelType: "gasoline" | "diesel" | "hybrid" | "electric";
     wd: "front" | "back" | "4WD" | "AWD";
     createdAt: Timestamp;
