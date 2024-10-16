@@ -122,7 +122,7 @@ function useFetchDoc(db, collectionName, docId, setData, setError) {
 var successCodes = [201, 200];
 var errorCodes = [404];
 var internalErrorCodes = [500];
-var firestoreCollections = ["users", "userPermissions", "vehicles", "reservations", "driversLicenses", "damages"];
+var firestoreCollections = ["users", "userPermissions", "vehicles", "reservations", "driversLicenses", "damages", "contracts"];
 
 // src/consts/vehicleClasses.ts
 var vehicleClasses = ["A1", "A", "B", "C1", "C", "D1", "D", "BE", "C1E", "CE", "D1E", "DE", "M", "S", "T"];
