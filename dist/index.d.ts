@@ -88,7 +88,7 @@ type Reservation = {
     };
     createdAt: Timestamp;
     updatedAt: Timestamp;
-    contract?: Contract["id"];
+    contract: Contract["id"];
 };
 
 type Vehicle = {
