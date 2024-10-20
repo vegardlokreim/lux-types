@@ -37,5 +37,7 @@ export type Contract = {
     signatureUrl: string;
 
     reservation?: Reservation["id"];
+    contractUrl?: string;
+
 
 }

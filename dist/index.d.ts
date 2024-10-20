@@ -70,6 +70,7 @@ type Contract = {
     subtotal: number;
     signatureUrl: string;
     reservation?: Reservation["id"];
+    contractUrl?: string;
 };
 
 type Reservation = {
