@@ -1,4 +1,4 @@
-import {firestoreCollections} from "./backend/consts";
+import { firestoreCollections, userStoragePath } from "./backend/consts";
 
 export type Subset<T> = {
     [A in keyof T]?: T[A] extends object
@@ -11,3 +11,5 @@ export type Subset<T> = {
 }
 
 export type FirestoreCollection = typeof firestoreCollections[number];
+
+export type UserStoragePath = typeof userStoragePath[number];
