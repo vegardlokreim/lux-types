@@ -121,6 +121,7 @@ type Vehicle = {
     unavailableDates?: Array<{
         from: Timestamp;
         to: Timestamp;
+        reservationId: Reservation["id"];
     }>;
     fuelType: "gasoline" | "diesel" | "hybrid" | "electric";
     wd: "front" | "back" | "4WD" | "AWD";
