@@ -3,6 +3,7 @@ export { Subset, FirestoreCollection, UserStoragePath } from './types/comonTypes
 export { ResponseCode } from './types/backend/ResponseCodes';
 export { UpdateVehicleParams, UpdateVehicleResponse } from './types/backend/functions/updateVehicle';
 export { UpdateProfileParams, UpdateProfileResponse } from './types/backend/functions/updateProfile';
+export { SetPaymentStatusParams, SetPaymentStatusResponse } from './types/backend/functions/setPaymentStatus';
 export { GetVehicleInfoParams, GetVehicleInfoResponse } from './types/backend/functions/getVehilceInfo.types';
 export { CreateVehicleParams, CreateVehicleResponse } from './types/backend/functions/createVehicle.types';
 export { CreateUserParams, CreateUserResponse } from './types/backend/functions/createUser.types';
