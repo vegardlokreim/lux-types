@@ -33,4 +33,6 @@ export type Reservation = {
     updatedAt: Timestamp;
 
     contract: Contract["id"];
+    
+    contractUrl?: string;
 }

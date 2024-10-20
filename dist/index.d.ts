@@ -91,6 +91,7 @@ type Reservation = {
     createdAt: Timestamp;
     updatedAt: Timestamp;
     contract: Contract["id"];
+    contractUrl?: string;
 };
 
 type Vehicle = {
