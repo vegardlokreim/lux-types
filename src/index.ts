@@ -14,6 +14,7 @@ export { VehicleType } from './types/backend/firestore/VehicleTypes';
 export { Vehicle } from './types/backend/firestore/Vehicle';
 export { User } from './types/backend/firestore/User';
 export { Reservation } from './types/backend/firestore/Reservation';
+export { DriversLicenseLight } from './types/backend/firestore/DriversLicenseLight';
 export { VehicleClasses, DriversLicense } from './types/backend/firestore/DriversLicense';
 export { Damage } from './types/backend/firestore/Damage';
 export { Contract } from './types/backend/firestore/Contract';
