@@ -19,6 +19,28 @@ type ResponseCode = typeof successCodes[number] | typeof errorCodes[number] | ty
 declare const vehicleTypes: readonly ["car", "bike", "bus"];
 type VehicleType = typeof vehicleTypes[number];
 
+declare const vehicleClasses: readonly ["A1", "A", "B", "C1", "C", "D1", "D", "BE", "C1E", "CE", "D1E", "DE", "M", "S", "T"];
+
+type VehicleClasses = typeof vehicleClasses[number];
+type DriversLicense = {
+    id: string;
+    url: string;
+    lastName: string;
+    firstName: string;
+    birthDate: Date;
+    issued: Date;
+    expires: Date;
+    issuedBy: string;
+    pid: string;
+    licenseNumber: string;
+    classes: VehicleClasses[];
+    userId: User["id"];
+    createdAt: Timestamp;
+    updatedAt: Timestamp;
+    isConfirmed: boolean;
+    lastConfirmed: Timestamp;
+};
+
 type User = {
     id: string;
     email: string;
@@ -30,6 +52,13 @@ type User = {
     createdAt: Timestamp;
     updatedAt: Timestamp;
     profilePicture?: string;
+    address: {
+        street: string;
+        city: string;
+        zip: string;
+        country: string;
+    };
+    driversLicense: DriversLicense["id"];
     clv?: number;
 };
 
@@ -92,6 +121,8 @@ type Reservation = {
     createdAt: Timestamp;
     updatedAt: Timestamp;
     contract: Contract["id"];
+    includedKm: number;
+    additionalKm: number;
     contractUrl?: string;
 };
 
@@ -207,28 +238,6 @@ type GetReservationsResponse = {
         reservation: Reservation;
         vehicle?: Vehicle;
     }>;
-};
-
-declare const vehicleClasses: readonly ["A1", "A", "B", "C1", "C", "D1", "D", "BE", "C1E", "CE", "D1E", "DE", "M", "S", "T"];
-
-type VehicleClasses = typeof vehicleClasses[number];
-type DriversLicense = {
-    id: string;
-    url: string;
-    lastName: string;
-    firstName: string;
-    birthDate: Date;
-    issued: Date;
-    expires: Date;
-    issuedBy: string;
-    pid: string;
-    licenseNumber: string;
-    classes: VehicleClasses[];
-    userId: User["id"];
-    createdAt: Timestamp;
-    updatedAt: Timestamp;
-    isConfirmed: boolean;
-    lastConfirmed: Timestamp;
 };
 
 type WhereFilterOpType<T> = T extends Array<infer _U> ? "array-contains" | "array-contains-any" | WhereFilterOp : WhereFilterOp;
