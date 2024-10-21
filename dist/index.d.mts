@@ -58,7 +58,7 @@ type User = {
         zip: string;
         country: string;
     };
-    driversLicense: DriversLicense["id"];
+    driversLicense?: DriversLicense["id"];
     clv?: number;
 };
 

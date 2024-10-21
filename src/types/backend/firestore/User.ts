@@ -27,7 +27,7 @@ export type User = {
         country: string;
     }
 
-    driversLicense: DriversLicense["id"];
+    driversLicense?: DriversLicense["id"];
 
     clv?: number; // increments when user adds reservation, decrements when reservation is cancelled
 }
