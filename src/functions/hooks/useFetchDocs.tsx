@@ -13,7 +13,6 @@ interface UseFetchDocsResult<T> {
 export function useFetchDocs<T>(
     db: Firestore,
     collectionName: FirestoreCollection,
-    queryConstraints: QueryConstraint[] = [],
     setExternalData?: React.Dispatch<React.SetStateAction<T[]>> | React.Dispatch<React.SetStateAction<T[] | undefined>>,
 ): UseFetchDocsResult<T> {
     const [internalData, setInternalData] = useState<T[]>();
@@ -26,7 +25,7 @@ export function useFetchDocs<T>(
 
         try {
             const collectionRef = collection(db, collectionName);
-            const queryRef = query(collectionRef, ...queryConstraints);
+            const queryRef = query(collectionRef);
             const snapshot = await getDocs(queryRef);
 
             if (!snapshot.empty) {
@@ -54,7 +53,7 @@ export function useFetchDocs<T>(
         } finally {
             setIsLoading(false);
         }
-    }, [db, collectionName, queryConstraints, setExternalData]);
+    }, [db, collectionName, setExternalData]);
 
     useEffect(() => {
         fetchDocs();

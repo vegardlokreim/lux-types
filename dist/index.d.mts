@@ -1,5 +1,5 @@
 import { Timestamp } from 'firebase-admin/firestore';
-import { WhereFilterOp, Firestore, QueryDocumentSnapshot, DocumentData, QueryConstraint } from 'firebase/firestore';
+import { WhereFilterOp, Firestore, QueryDocumentSnapshot, DocumentData } from 'firebase/firestore';
 import React$1 from 'react';
 
 declare const successCodes: readonly [201, 200];
@@ -314,7 +314,7 @@ interface UseFetchDocsResult<T> {
     isLoading: boolean;
     refetch: () => Promise<T[] | null>;
 }
-declare function useFetchDocs<T>(db: Firestore, collectionName: FirestoreCollection, queryConstraints?: QueryConstraint[], setExternalData?: React.Dispatch<React.SetStateAction<T[]>> | React.Dispatch<React.SetStateAction<T[] | undefined>>): UseFetchDocsResult<T>;
+declare function useFetchDocs<T>(db: Firestore, collectionName: FirestoreCollection, setExternalData?: React.Dispatch<React.SetStateAction<T[]>> | React.Dispatch<React.SetStateAction<T[] | undefined>>): UseFetchDocsResult<T>;
 
 interface UseFetchDocResult<T> {
     data: T | undefined;

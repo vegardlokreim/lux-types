@@ -94,7 +94,7 @@ function useFetchDocsWhere(db, collectionName, whereClauses, dependencies, setDa
 // src/functions/hooks/useFetchDocs.tsx
 import { useEffect as useEffect3, useCallback as useCallback2, useState as useState2 } from "react";
 import { collection as collection2, getDocs as getDocs2, query as query2 } from "firebase/firestore";
-function useFetchDocs(db, collectionName, queryConstraints = [], setExternalData) {
+function useFetchDocs(db, collectionName, setExternalData) {
   const [internalData, setInternalData] = useState2();
   const [error, setError] = useState2();
   const [isLoading, setIsLoading] = useState2(true);
@@ -103,7 +103,7 @@ function useFetchDocs(db, collectionName, queryConstraints = [], setExternalData
     setError(void 0);
     try {
       const collectionRef = collection2(db, collectionName);
-      const queryRef = query2(collectionRef, ...queryConstraints);
+      const queryRef = query2(collectionRef);
       const snapshot = await getDocs2(queryRef);
       if (!snapshot.empty) {
         const newData = snapshot.docs.map((doc2) => ({
@@ -129,7 +129,7 @@ function useFetchDocs(db, collectionName, queryConstraints = [], setExternalData
     } finally {
       setIsLoading(false);
     }
-  }, [db, collectionName, queryConstraints, setExternalData]);
+  }, [db, collectionName, setExternalData]);
   useEffect3(() => {
     fetchDocs();
   }, [fetchDocs]);
