@@ -59,7 +59,7 @@ function useScrollToTop() {
 
 // src/functions/hooks/useFetchDocsWhere.tsx
 import { useEffect as useEffect2, useCallback, useState } from "react";
-function useFetchDocsWhere(db, collectionName, whereClauses, setData, dependencies = [], setError) {
+function useFetchDocsWhere(db, collectionName, whereClauses, setData, dependencies = []) {
   const [internalData, setInternalData] = useState();
   const [internalError, setInternalError] = useState();
   const [isLoading, setIsLoading] = useState(true);
@@ -70,18 +70,16 @@ function useFetchDocsWhere(db, collectionName, whereClauses, setData, dependenci
       const docData = docs.map((doc2) => doc2.data);
       setInternalData(docData);
       setData(docData);
-      setError == null ? void 0 : setError(void 0);
       setInternalError(void 0);
       return docs.map((doc2) => doc2.data);
     } catch (err) {
       const errorMessage = `Error while fetching docs from collection ${collectionName} where ${JSON.stringify(whereClauses)}. Error: ${err}`;
-      setError == null ? void 0 : setError(errorMessage);
       setInternalError(errorMessage);
       throw err;
     } finally {
       setIsLoading(false);
     }
-  }, [db, collectionName, JSON.stringify(whereClauses), setData, setError]);
+  }, [db, collectionName, JSON.stringify(whereClauses), setData]);
   useEffect2(() => {
     fetchDocs();
   }, [fetchDocs, ...dependencies]);
@@ -123,7 +121,7 @@ function useFetchDocs(db, collectionName, queryConstraints = [], setExternalData
         return null;
       }
     } catch (err) {
-      const newData = void 0;
+      const newData = [];
       setInternalData(newData);
       setExternalData == null ? void 0 : setExternalData(newData);
       setError(`Error fetching documents: ${err}`);

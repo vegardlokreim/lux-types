@@ -2,7 +2,6 @@ import { useEffect, useCallback, useState } from "react";
 import { collection, Firestore, getDocs, QueryConstraint, query } from "firebase/firestore";
 import { FirestoreCollection } from "../../types/comonTypes";
 
-type SetDataFunction<T> = React.Dispatch<React.SetStateAction<T[] | undefined>> | ((data: T[] | undefined) => void);
 
 interface UseFetchDocsResult<T> {
     data: T[] | undefined;
@@ -15,7 +14,7 @@ export function useFetchDocs<T>(
     db: Firestore,
     collectionName: FirestoreCollection,
     queryConstraints: QueryConstraint[] = [],
-    setExternalData?: SetDataFunction<T>,
+    setExternalData?: React.Dispatch<React.SetStateAction<T[]>> | React.Dispatch<React.SetStateAction<T[] | undefined>>,
 ): UseFetchDocsResult<T> {
     const [internalData, setInternalData] = useState<T[]>();
     const [error, setError] = useState<string>();
@@ -47,7 +46,7 @@ export function useFetchDocs<T>(
                 return null;
             }
         } catch (err) {
-            const newData = undefined;
+            const newData: T[] = [];
             setInternalData(newData);
             setExternalData?.(newData);
             setError(`Error fetching documents: ${err}`);

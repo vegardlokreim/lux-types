@@ -2,10 +2,6 @@ import { useEffect, useCallback, useState } from "react";
 import { doc, Firestore, getDoc } from "firebase/firestore";
 import { FirestoreCollection } from "../../types/comonTypes";
 
-type SetDataFunction<T> =
-    | React.Dispatch<React.SetStateAction<T | undefined>>
-    | ((data: T | undefined) => void);
-
 interface UseFetchDocResult<T> {
     data: T | undefined;
     error: string | undefined;
@@ -17,7 +13,7 @@ export function useFetchDoc<T>(
     db: Firestore,
     collectionName: FirestoreCollection,
     docId: string | undefined,
-    setExternalData?: SetDataFunction<T>,
+    setExternalData?: React.Dispatch<React.SetStateAction<T | undefined>>,
 ): UseFetchDocResult<T> {
     const [internalData, setInternalData] = useState<T>();
     const [error, setError] = useState<string>();

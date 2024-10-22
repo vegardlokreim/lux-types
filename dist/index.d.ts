@@ -306,25 +306,23 @@ interface UseFetchDocsWhereResult<T> {
     isLoading: boolean;
     refetch: () => Promise<T[] | null>;
 }
-declare function useFetchDocsWhere<T>(db: Firestore, collectionName: FirestoreCollection, whereClauses: WhereClause<T>[], setData: React$1.Dispatch<React$1.SetStateAction<T[] | undefined>>, dependencies?: any[], setError?: React$1.Dispatch<React$1.SetStateAction<string | undefined>>): UseFetchDocsWhereResult<T>;
+declare function useFetchDocsWhere<T>(db: Firestore, collectionName: FirestoreCollection, whereClauses: WhereClause<T>[], setData: React$1.Dispatch<React$1.SetStateAction<T[] | undefined>>, dependencies?: any[]): UseFetchDocsWhereResult<T>;
 
-type SetDataFunction$1<T> = React.Dispatch<React.SetStateAction<T[] | undefined>> | ((data: T[] | undefined) => void);
 interface UseFetchDocsResult<T> {
     data: T[] | undefined;
     error: string | undefined;
     isLoading: boolean;
     refetch: () => Promise<T[] | null>;
 }
-declare function useFetchDocs<T>(db: Firestore, collectionName: FirestoreCollection, queryConstraints?: QueryConstraint[], setExternalData?: SetDataFunction$1<T>): UseFetchDocsResult<T>;
+declare function useFetchDocs<T>(db: Firestore, collectionName: FirestoreCollection, queryConstraints?: QueryConstraint[], setExternalData?: React.Dispatch<React.SetStateAction<T[]>> | React.Dispatch<React.SetStateAction<T[] | undefined>>): UseFetchDocsResult<T>;
 
-type SetDataFunction<T> = React.Dispatch<React.SetStateAction<T | undefined>> | ((data: T | undefined) => void);
 interface UseFetchDocResult<T> {
     data: T | undefined;
     error: string | undefined;
     isLoading: boolean;
     refetch: () => Promise<T | null>;
 }
-declare function useFetchDoc<T>(db: Firestore, collectionName: FirestoreCollection, docId: string | undefined, setExternalData?: SetDataFunction<T>): UseFetchDocResult<T>;
+declare function useFetchDoc<T>(db: Firestore, collectionName: FirestoreCollection, docId: string | undefined, setExternalData?: React.Dispatch<React.SetStateAction<T | undefined>>): UseFetchDocResult<T>;
 
 declare const vehicleList: readonly ["type", "someType"];
 
