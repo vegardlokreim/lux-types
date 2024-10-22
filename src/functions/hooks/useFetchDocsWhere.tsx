@@ -14,8 +14,8 @@ export function useFetchDocsWhere<T>(
     db: Firestore,
     collectionName: FirestoreCollection,
     whereClauses: WhereClause<T>[],
-    setData: React.Dispatch<React.SetStateAction<T[] | undefined>>,
     dependencies = [] as any[],
+    setData?: React.Dispatch<React.SetStateAction<T[] | undefined>>,
 ): UseFetchDocsWhereResult<T> {
     const [internalData, setInternalData] = useState<T[] | undefined>();
     const [internalError, setInternalError] = useState<string>();
@@ -27,7 +27,7 @@ export function useFetchDocsWhere<T>(
             const docs = await getDocsWhere<T>(db, collectionName, whereClauses);
             const docData = docs.map(doc => doc.data);
             setInternalData(docData);
-            setData(docData);
+            setData?.(docData);
             setInternalError(undefined);
             return docs.map(doc => doc.data);
         } catch (err) {
