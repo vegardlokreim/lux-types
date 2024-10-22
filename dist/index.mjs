@@ -58,19 +58,24 @@ function useScrollToTop() {
 }
 
 // src/functions/hooks/useFetchDocsWhere.tsx
-import { useEffect as useEffect2 } from "react";
+import { useEffect as useEffect2, useCallback } from "react";
 function useFetchDocsWhere(db, collectionName, whereClauses, setData, dependencies = [], setError) {
-  const fetchDocs = async () => {
+  const fetchDocs = useCallback(async () => {
     try {
       const docs = await getDocsWhere(db, collectionName, whereClauses);
       setData(docs.map((doc2) => doc2.data));
+      return docs;
     } catch (err) {
-      setError && setError(`Error while fetching docs from collection ${collectionName} where ${JSON.stringify(whereClauses)}. Error: ${err}`);
+      setError == null ? void 0 : setError(
+        `Error while fetching docs from collection ${collectionName} where ${JSON.stringify(whereClauses)}. Error: ${err}`
+      );
+      throw err;
     }
-  };
+  }, [db, collectionName, JSON.stringify(whereClauses), setData, setError]);
   useEffect2(() => {
     fetchDocs();
-  }, [collectionName, setData, setError, ...dependencies]);
+  }, [fetchDocs, ...dependencies]);
+  return { refetch: fetchDocs };
 }
 
 // src/functions/hooks/useFetchDocs.tsx
