@@ -1,32 +1,50 @@
-import { useEffect } from "react";
+import { useEffect, useCallback, useState } from "react";
 import { doc, Firestore, getDoc } from "firebase/firestore";
 import { FirestoreCollection } from "../../types/comonTypes";
 
-// Hook for fetching and setting Firestore document data
 export function useFetchDoc<T>(
     db: Firestore,
     collectionName: FirestoreCollection,
     docId: string | undefined,
     setData: React.Dispatch<React.SetStateAction<T | undefined>>,
-    setError?: React.Dispatch<React.SetStateAction<string | undefined>>, // Error state setter
+    setError?: React.Dispatch<React.SetStateAction<string | undefined>>,
 ) {
-    useEffect( () => {
-        const fetchDocData = async () => {
-            try {
-                if (!docId) return;
-                const docRef = doc( db, collectionName, docId );
-                const docSnapshot = await getDoc( docRef );
+    const [isLoading, setIsLoading] = useState(true);
 
-                if (docSnapshot.exists()) {
-                    setData( docSnapshot.data() as T ); // Casting data to generic type T
-                } else {
-                    setError && setError( `Document with ID ${ docId } not found in ${ collectionName }` );
-                }
-            } catch (err) {
-                setError && setError( `Error fetching document: ${ err }` );
+    const fetchDocData = useCallback(async () => {
+        setIsLoading(true);
+        try {
+            if (!docId) {
+                setData(undefined);
+                setError?.(undefined);
+                return null;
             }
-        };
 
+            const docRef = doc(db, collectionName, docId);
+            const docSnapshot = await getDoc(docRef);
+
+            if (docSnapshot.exists()) {
+                const data = docSnapshot.data() as T;
+                setData(data);
+                setError?.(undefined);
+                return data;
+            } else {
+                setData(undefined);
+                setError?.(`Document with ID ${docId} not found in ${collectionName}`);
+                return null;
+            }
+        } catch (err) {
+            setData(undefined);
+            setError?.(`Error fetching document: ${err}`);
+            throw err;
+        } finally {
+            setIsLoading(false);
+        }
+    }, [db, collectionName, docId, setData, setError]);
+
+    useEffect(() => {
         fetchDocData();
-    }, [ docId, collectionName, setData, setError ] );
+    }, [fetchDocData]);
+
+    return { refetch: fetchDocData, isLoading };
 }

@@ -306,11 +306,18 @@ declare function useFetchDocsWhere<T>(db: Firestore, collectionName: FirestoreCo
         ref: _firebase_firestore.QueryDocumentSnapshot<_firebase_firestore.DocumentData, _firebase_firestore.DocumentData>;
         data: T;
     }[]>;
+    isLoading: boolean;
 };
 
-declare function useFetchDocs<T>(db: Firestore, collectionName: FirestoreCollection, setData: React$1.Dispatch<React$1.SetStateAction<T[]>> | React$1.Dispatch<React$1.SetStateAction<T[] | undefined>>, setError: React$1.Dispatch<React$1.SetStateAction<string | undefined>>): void;
+declare function useFetchDocs<T>(db: Firestore, collectionName: FirestoreCollection, setData: React$1.Dispatch<React$1.SetStateAction<T[]>> | React$1.Dispatch<React$1.SetStateAction<T[] | undefined>>, setError: React$1.Dispatch<React$1.SetStateAction<string | undefined>>): {
+    refetch: () => Promise<T[]>;
+    isLoading: boolean;
+};
 
-declare function useFetchDoc<T>(db: Firestore, collectionName: FirestoreCollection, docId: string | undefined, setData: React.Dispatch<React.SetStateAction<T | undefined>>, setError?: React.Dispatch<React.SetStateAction<string | undefined>>): void;
+declare function useFetchDoc<T>(db: Firestore, collectionName: FirestoreCollection, docId: string | undefined, setData: React.Dispatch<React.SetStateAction<T | undefined>>, setError?: React.Dispatch<React.SetStateAction<string | undefined>>): {
+    refetch: () => Promise<T | null>;
+    isLoading: boolean;
+};
 
 declare const vehicleList: readonly ["type", "someType"];
 

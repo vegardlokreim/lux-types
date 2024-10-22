@@ -101,67 +101,98 @@ function useScrollToTop() {
 // src/functions/hooks/useFetchDocsWhere.tsx
 var import_react2 = require("react");
 function useFetchDocsWhere(db, collectionName, whereClauses, setData, dependencies = [], setError) {
+  const [isLoading, setIsLoading] = (0, import_react2.useState)(true);
   const fetchDocs = (0, import_react2.useCallback)(async () => {
+    setIsLoading(true);
     try {
       const docs = await getDocsWhere(db, collectionName, whereClauses);
       setData(docs.map((doc2) => doc2.data));
+      setError == null ? void 0 : setError(void 0);
       return docs;
     } catch (err) {
       setError == null ? void 0 : setError(
         `Error while fetching docs from collection ${collectionName} where ${JSON.stringify(whereClauses)}. Error: ${err}`
       );
       throw err;
+    } finally {
+      setIsLoading(false);
     }
   }, [db, collectionName, JSON.stringify(whereClauses), setData, setError]);
   (0, import_react2.useEffect)(() => {
     fetchDocs();
   }, [fetchDocs, ...dependencies]);
-  return { refetch: fetchDocs };
+  return { refetch: fetchDocs, isLoading };
 }
 
 // src/functions/hooks/useFetchDocs.tsx
 var import_react3 = require("react");
 var import_firestore2 = require("firebase/firestore");
 function useFetchDocs(db, collectionName, setData, setError) {
-  const fetchDocs = async () => {
+  const [isLoading, setIsLoading] = (0, import_react3.useState)(true);
+  const fetchDocs = (0, import_react3.useCallback)(async () => {
+    setIsLoading(true);
     try {
       const snap = await (0, import_firestore2.getDocs)((0, import_firestore2.collection)(db, collectionName));
       if (snap.docs.length) {
-        setData(snap.docs.map((doc2) => doc2.data()));
+        const data = snap.docs.map((doc2) => doc2.data());
+        setData(data);
+        setError(void 0);
+        return data;
       } else {
         setData([]);
         setError(`No documents in ${collectionName}`);
+        return [];
       }
     } catch (err) {
       setError(`Error fetching document: ${err}`);
+      throw err;
+    } finally {
+      setIsLoading(false);
     }
-  };
+  }, [db, collectionName, setData, setError]);
   (0, import_react3.useEffect)(() => {
     fetchDocs();
-  }, [collectionName, setData, setError]);
+  }, [fetchDocs]);
+  return { refetch: fetchDocs, isLoading };
 }
 
 // src/functions/hooks/useFetchDoc.tsx
 var import_react4 = require("react");
 var import_firestore3 = require("firebase/firestore");
 function useFetchDoc(db, collectionName, docId, setData, setError) {
-  (0, import_react4.useEffect)(() => {
-    const fetchDocData = async () => {
-      try {
-        if (!docId) return;
-        const docRef = (0, import_firestore3.doc)(db, collectionName, docId);
-        const docSnapshot = await (0, import_firestore3.getDoc)(docRef);
-        if (docSnapshot.exists()) {
-          setData(docSnapshot.data());
-        } else {
-          setError && setError(`Document with ID ${docId} not found in ${collectionName}`);
-        }
-      } catch (err) {
-        setError && setError(`Error fetching document: ${err}`);
+  const [isLoading, setIsLoading] = (0, import_react4.useState)(true);
+  const fetchDocData = (0, import_react4.useCallback)(async () => {
+    setIsLoading(true);
+    try {
+      if (!docId) {
+        setData(void 0);
+        setError == null ? void 0 : setError(void 0);
+        return null;
       }
-    };
+      const docRef = (0, import_firestore3.doc)(db, collectionName, docId);
+      const docSnapshot = await (0, import_firestore3.getDoc)(docRef);
+      if (docSnapshot.exists()) {
+        const data = docSnapshot.data();
+        setData(data);
+        setError == null ? void 0 : setError(void 0);
+        return data;
+      } else {
+        setData(void 0);
+        setError == null ? void 0 : setError(`Document with ID ${docId} not found in ${collectionName}`);
+        return null;
+      }
+    } catch (err) {
+      setData(void 0);
+      setError == null ? void 0 : setError(`Error fetching document: ${err}`);
+      throw err;
+    } finally {
+      setIsLoading(false);
+    }
+  }, [db, collectionName, docId, setData, setError]);
+  (0, import_react4.useEffect)(() => {
     fetchDocData();
-  }, [docId, collectionName, setData, setError]);
+  }, [fetchDocData]);
+  return { refetch: fetchDocData, isLoading };
 }
 
 // src/types/backend/consts.ts

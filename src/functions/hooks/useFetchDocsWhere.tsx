@@ -1,4 +1,4 @@
-import React, { useEffect, useCallback } from "react";
+import React, { useEffect, useCallback, useState } from "react";
 import { getDocsWhere, WhereClause } from "../getDocsWhere";
 import { Firestore } from "firebase/firestore";
 import { FirestoreCollection } from "../../types/comonTypes";
@@ -11,16 +11,22 @@ export function useFetchDocsWhere<T>(
     dependencies = [] as any[],
     setError?: React.Dispatch<React.SetStateAction<string | undefined>>,
 ) {
+    const [isLoading, setIsLoading] = useState(true);
+
     const fetchDocs = useCallback(async () => {
+        setIsLoading(true);
         try {
             const docs = await getDocsWhere<T>(db, collectionName, whereClauses);
             setData(docs.map(doc => doc.data));
-            return docs; // Return the docs in case the caller needs them
+            setError?.(undefined);
+            return docs;
         } catch (err) {
             setError?.(
                 `Error while fetching docs from collection ${collectionName} where ${JSON.stringify(whereClauses)}. Error: ${err}`
             );
-            throw err; // Rethrow to allow error handling by the caller
+            throw err;
+        } finally {
+            setIsLoading(false);
         }
     }, [db, collectionName, JSON.stringify(whereClauses), setData, setError]);
 
@@ -28,5 +34,5 @@ export function useFetchDocsWhere<T>(
         fetchDocs();
     }, [fetchDocs, ...dependencies]);
 
-    return { refetch: fetchDocs };
+    return { refetch: fetchDocs, isLoading };
 }
