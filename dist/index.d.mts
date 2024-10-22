@@ -161,6 +161,7 @@ type Vehicle = {
     createdAt: Timestamp;
     updatedAt: Timestamp;
     damages: Array<Damage["id"]>;
+    vin: string;
 };
 
 type UpdateVehicleParams = {
