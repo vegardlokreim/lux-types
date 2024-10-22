@@ -2,7 +2,9 @@ import { useEffect, useCallback, useState } from "react";
 import { doc, Firestore, getDoc } from "firebase/firestore";
 import { FirestoreCollection } from "../../types/comonTypes";
 
-type SetDataFunction<T> = React.Dispatch<React.SetStateAction<T | undefined>> | ((data: T | undefined) => void);
+type SetDataFunction<T> =
+    | React.Dispatch<React.SetStateAction<T | undefined>>
+    | ((data: T | undefined) => void);
 
 interface UseFetchDocResult<T> {
     data: T | undefined;
@@ -27,9 +29,8 @@ export function useFetchDoc<T>(
 
         try {
             if (!docId) {
-                const newData = undefined;
-                setInternalData(newData);
-                setExternalData?.(newData);
+                setInternalData(undefined);
+                setExternalData?.(undefined);
                 return null;
             }
 
@@ -37,21 +38,23 @@ export function useFetchDoc<T>(
             const docSnapshot = await getDoc(docRef);
 
             if (docSnapshot.exists()) {
-                const newData = docSnapshot.data() as T;
+                const newData = {
+                    id: docSnapshot.id,
+                    ...docSnapshot.data()
+                } as T;
+
                 setInternalData(newData);
                 setExternalData?.(newData);
                 return newData;
             } else {
-                const newData = undefined;
-                setInternalData(newData);
-                setExternalData?.(newData);
+                setInternalData(undefined);
+                setExternalData?.(undefined);
                 setError(`Document with ID ${docId} not found in ${collectionName}`);
                 return null;
             }
         } catch (err) {
-            const newData = undefined;
-            setInternalData(newData);
-            setExternalData?.(newData);
+            setInternalData(undefined);
+            setExternalData?.(undefined);
             setError(`Error fetching document: ${err}`);
             throw err;
         } finally {

@@ -196,29 +196,29 @@ function useFetchDoc(db, collectionName, docId, setExternalData) {
     setError(void 0);
     try {
       if (!docId) {
-        const newData = void 0;
-        setInternalData(newData);
-        setExternalData == null ? void 0 : setExternalData(newData);
+        setInternalData(void 0);
+        setExternalData == null ? void 0 : setExternalData(void 0);
         return null;
       }
       const docRef = (0, import_firestore3.doc)(db, collectionName, docId);
       const docSnapshot = await (0, import_firestore3.getDoc)(docRef);
       if (docSnapshot.exists()) {
-        const newData = docSnapshot.data();
+        const newData = {
+          id: docSnapshot.id,
+          ...docSnapshot.data()
+        };
         setInternalData(newData);
         setExternalData == null ? void 0 : setExternalData(newData);
         return newData;
       } else {
-        const newData = void 0;
-        setInternalData(newData);
-        setExternalData == null ? void 0 : setExternalData(newData);
+        setInternalData(void 0);
+        setExternalData == null ? void 0 : setExternalData(void 0);
         setError(`Document with ID ${docId} not found in ${collectionName}`);
         return null;
       }
     } catch (err) {
-      const newData = void 0;
-      setInternalData(newData);
-      setExternalData == null ? void 0 : setExternalData(newData);
+      setInternalData(void 0);
+      setExternalData == null ? void 0 : setExternalData(void 0);
       setError(`Error fetching document: ${err}`);
       throw err;
     } finally {
