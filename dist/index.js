@@ -100,7 +100,7 @@ function useScrollToTop() {
 
 // src/functions/hooks/useFetchDocsWhere.tsx
 var import_react2 = require("react");
-function useFetchDocsWhere(db, collectionName, whereClauses, dependencies = [], setData) {
+function useFetchDocsWhere(db, collectionName, whereClauses, dependencies, setData) {
   const [internalData, setInternalData] = (0, import_react2.useState)();
   const [internalError, setInternalError] = (0, import_react2.useState)();
   const [isLoading, setIsLoading] = (0, import_react2.useState)(true);

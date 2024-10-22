@@ -306,7 +306,7 @@ interface UseFetchDocsWhereResult<T> {
     isLoading: boolean;
     refetch: () => Promise<T[] | null>;
 }
-declare function useFetchDocsWhere<T>(db: Firestore, collectionName: FirestoreCollection, whereClauses: WhereClause<T>[], dependencies?: any[], setData?: React$1.Dispatch<React$1.SetStateAction<T[] | undefined>>): UseFetchDocsWhereResult<T>;
+declare function useFetchDocsWhere<T>(db: Firestore, collectionName: FirestoreCollection, whereClauses: WhereClause<T>[], dependencies: any[], setData?: React$1.Dispatch<React$1.SetStateAction<T[] | undefined>>): UseFetchDocsWhereResult<T>;
 
 interface UseFetchDocsResult<T> {
     data: T[] | undefined;

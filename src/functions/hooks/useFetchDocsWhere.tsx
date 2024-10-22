@@ -14,7 +14,7 @@ export function useFetchDocsWhere<T>(
     db: Firestore,
     collectionName: FirestoreCollection,
     whereClauses: WhereClause<T>[],
-    dependencies = [] as any[],
+    dependencies: any[],
     setData?: React.Dispatch<React.SetStateAction<T[] | undefined>>,
 ): UseFetchDocsWhereResult<T> {
     const [internalData, setInternalData] = useState<T[] | undefined>();
