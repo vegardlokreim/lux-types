@@ -1,36 +1,39 @@
-import { collection, getDocs, query, where, WhereFilterOp, Firestore } from "firebase/firestore";
-import { FirestoreCollection } from "../types/comonTypes";
+import { collection, DocumentData, Firestore, getDocs, query, QueryDocumentSnapshot, where, WhereFilterOp } from 'firebase/firestore';
+import { FirestoreCollection } from '../types/comonTypes';
 
-export type WhereClause<T> = {
-    field: keyof T;
-    operator: WhereFilterOp;
-    value: any;
-};
+export type WhereFilterOpType<T> = T extends Array<infer _U> ? "array-contains" | "array-contains-any" | WhereFilterOp : WhereFilterOp;
 
-export async function getDocsWhere<T>(
-    db: Firestore,
-    collectionName: FirestoreCollection,
-    whereClauses: WhereClause<T>[]
-): Promise<Array<{ id: string; data: T }>> {
+// Adjusting WhereClause to handle values for array types (like employeeId within employeeIds array)
+export type WhereClause<T> = { [K in keyof T]: [K, WhereFilterOpType<T[K]>, T[K] extends Array<infer U> ? U : T[K]]; }[keyof T];
+
+type ReturnType<DocumentType> = Promise<{ ref: QueryDocumentSnapshot<DocumentData, DocumentData>; data: DocumentType }[]>
+
+
+export async function getDocsWhere<DocumentType>(db: Firestore, collectionName: FirestoreCollection, whereClauses: WhereClause<DocumentType>[], dontThrow = true): ReturnType<DocumentType> {
+    const collectionRef = collection(db, collectionName);
+
+    let q = query(collectionRef);
+
+    whereClauses.forEach(([field, op, value]) => {
+        q = query(q, where(field as string, op, value));
+    });
+
+
     try {
-        const collectionRef = collection(db, collectionName);
+        const querySnapshot = await getDocs(q);
 
-        const constraints = whereClauses.map(({ field, operator, value }) =>
-            where(field as string, operator, value)
-        );
+        if ((querySnapshot.empty && !dontThrow)) throw new Error(`No documents found in collection ${collectionName} with the provided criteria`);
 
-        const queryRef = query(collectionRef, ...constraints);
-        const snapshot = await getDocs(queryRef);
+        return querySnapshot.docs.map((doc) => ({
+            ref: doc,
+            data: doc.data() as DocumentType
+        }));
 
-        if (snapshot.empty) {
+    } catch (error) {
+        if (dontThrow) {
+            console.warn(`Error fetching documents from collection ${collectionName}:`, error);
             return [];
         }
-
-        return snapshot.docs.map(doc => ({
-            id: doc.id,
-            data: { ...doc.data(), id: doc.id } as T
-        }));
-    } catch (error) {
-        throw new Error(`Error in getDocsWhere: ${error}`);
+        throw error;
     }
 }

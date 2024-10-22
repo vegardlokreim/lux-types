@@ -44,23 +44,25 @@ var vehicleTypes = ["car", "bike", "bus"];
 
 // src/functions/getDocsWhere.ts
 var import_firestore = require("firebase/firestore");
-async function getDocsWhere(db, collectionName, whereClauses) {
+async function getDocsWhere(db, collectionName, whereClauses, dontThrow = true) {
+  const collectionRef = (0, import_firestore.collection)(db, collectionName);
+  let q = (0, import_firestore.query)(collectionRef);
+  whereClauses.forEach(([field, op, value]) => {
+    q = (0, import_firestore.query)(q, (0, import_firestore.where)(field, op, value));
+  });
   try {
-    const collectionRef = (0, import_firestore.collection)(db, collectionName);
-    const constraints = whereClauses.map(
-      ({ field, operator, value }) => (0, import_firestore.where)(field, operator, value)
-    );
-    const queryRef = (0, import_firestore.query)(collectionRef, ...constraints);
-    const snapshot = await (0, import_firestore.getDocs)(queryRef);
-    if (snapshot.empty) {
-      return [];
-    }
-    return snapshot.docs.map((doc2) => ({
-      id: doc2.id,
-      data: { ...doc2.data(), id: doc2.id }
+    const querySnapshot = await (0, import_firestore.getDocs)(q);
+    if (querySnapshot.empty && !dontThrow) throw new Error(`No documents found in collection ${collectionName} with the provided criteria`);
+    return querySnapshot.docs.map((doc2) => ({
+      ref: doc2,
+      data: doc2.data()
     }));
   } catch (error) {
-    throw new Error(`Error in getDocsWhere: ${error}`);
+    if (dontThrow) {
+      console.warn(`Error fetching documents from collection ${collectionName}:`, error);
+      return [];
+    }
+    throw error;
   }
 }
 
@@ -98,45 +100,35 @@ function useScrollToTop() {
 
 // src/functions/hooks/useFetchDocsWhere.tsx
 var import_react2 = require("react");
-function useFetchDocsWhere(db, collectionName, whereClauses, setExternalData, dependencies = []) {
+function useFetchDocsWhere(db, collectionName, whereClauses, setData, dependencies = [], setError) {
   const [internalData, setInternalData] = (0, import_react2.useState)();
-  const [error, setError] = (0, import_react2.useState)();
+  const [internalError, setInternalError] = (0, import_react2.useState)();
   const [isLoading, setIsLoading] = (0, import_react2.useState)(true);
   const fetchDocs = (0, import_react2.useCallback)(async () => {
     setIsLoading(true);
-    setError(void 0);
     try {
       const docs = await getDocsWhere(db, collectionName, whereClauses);
-      if (docs.length > 0) {
-        const newData = docs.map((doc2) => doc2.data);
-        setInternalData(newData);
-        setExternalData == null ? void 0 : setExternalData(newData);
-        return docs;
-      } else {
-        const newData = [];
-        setInternalData(newData);
-        setExternalData == null ? void 0 : setExternalData(newData);
-        setError(`No documents found in ${collectionName} matching the specified criteria`);
-        return null;
-      }
+      const docData = docs.map((doc2) => doc2.data);
+      setInternalData(docData);
+      setData(docData);
+      setError == null ? void 0 : setError(void 0);
+      setInternalError(void 0);
+      return docs.map((doc2) => doc2.data);
     } catch (err) {
-      const newData = void 0;
-      setInternalData(newData);
-      setExternalData == null ? void 0 : setExternalData(newData);
-      setError(
-        `Error while fetching docs from collection ${collectionName} where ${JSON.stringify(whereClauses)}. Error: ${err}`
-      );
+      const errorMessage = `Error while fetching docs from collection ${collectionName} where ${JSON.stringify(whereClauses)}. Error: ${err}`;
+      setError == null ? void 0 : setError(errorMessage);
+      setInternalError(errorMessage);
       throw err;
     } finally {
       setIsLoading(false);
     }
-  }, [db, collectionName, JSON.stringify(whereClauses), setExternalData]);
+  }, [db, collectionName, JSON.stringify(whereClauses), setData, setError]);
   (0, import_react2.useEffect)(() => {
     fetchDocs();
   }, [fetchDocs, ...dependencies]);
   return {
     data: internalData,
-    error,
+    error: internalError,
     isLoading,
     refetch: fetchDocs
   };
