@@ -5,8 +5,8 @@ import React$1 from 'react';
 declare const successCodes: readonly [201, 200];
 declare const errorCodes: readonly [404];
 declare const internalErrorCodes: readonly [500];
-declare const firestoreCollections: readonly ["users", "userPermissions", "vehicles", "reservations", "driversLicenses", "damages", "contracts"];
-declare const userStoragePath: readonly ["profilePicture", "driversLicense", "signatures", "contracts"];
+declare const firestoreCollections: readonly ["users", "userPermissions", "vehicles", "reservations", "driversLicenses", "damages", "contracts", "carDeliveryAgreements", "carPickupAgreements"];
+declare const userStoragePath: readonly ["profilePicture", "driversLicense", "signatures", "contracts", "carPickupAgreements", "carDeliveryAgreements"];
 
 type Subset<T> = {
     [A in keyof T]?: T[A] extends object ? Subset<T[A]> : T[A] extends object | null ? Subset<T[A]> | null : T[A] extends object | null | undefined ? Subset<T[A]> | null | undefined : T[A];
@@ -102,6 +102,34 @@ type Contract = {
     contractUrl?: string;
 };
 
+type CarPickupAgreement = {
+    id: string;
+    vehicleId: Vehicle["id"];
+    userId: User["id"];
+    signedAt: Timestamp;
+    damages: Damage[];
+    reservation: Reservation["id"];
+    signatureUrl: string;
+    url?: string;
+    odometer: number;
+    fuelLevel?: number;
+    images: string[];
+};
+
+type CarDeliverAgreement = {
+    id: string;
+    vehicleId: Vehicle["id"];
+    userId: User["id"];
+    signedAt: Timestamp;
+    damages: Damage[];
+    reservation: Reservation["id"];
+    signatureUrl: string;
+    url?: string;
+    odometer: number;
+    fuelLevel?: number;
+    images: string[];
+};
+
 type Reservation = {
     id: string;
     user: User["id"];
@@ -121,6 +149,8 @@ type Reservation = {
     createdAt: Timestamp;
     updatedAt: Timestamp;
     contract: Contract["id"];
+    carPickupAgreement?: CarPickupAgreement["id"];
+    carDeliverAgreement?: CarDeliverAgreement["id"];
     includedKm: number;
     additionalKm: number;
     contractUrl?: string;
@@ -278,4 +308,4 @@ declare function useFetchDoc<T>(db: Firestore, collectionName: FirestoreCollecti
 
 declare const vehicleList: readonly ["type", "someType"];
 
-export { type Contract, type CreateDamageParams, type CreateDamageResponse, type CreateReservationParams, type CreateReservationResponse, type CreateUserParams, type CreateUserResponse, type CreateVehicleParams, type CreateVehicleResponse, type Damage, type DriversLicense, type DriversLicenseLight, type FirestoreCollection, type GetReservationsParams, type GetReservationsResponse, type GetVehicleInfoParams, type GetVehicleInfoResponse, type Reservation, type ResponseCode, type SetPaymentStatusParams, type SetPaymentStatusResponse, type Subset, type UpdateProfileParams, type UpdateProfileResponse, type UpdateVehicleParams, type UpdateVehicleResponse, type User, type UserStoragePath, type Vehicle, type VehicleClasses, type VehicleType, type WhereClause, type WhereFilterOpType, callFunction, errorCodes, firestoreCollections, formatDate, getDocsWhere, internalErrorCodes, successCodes, timestampToDate, useFetchDoc, useFetchDocs, useFetchDocsWhere, useScrollToTop, userStoragePath, vehicleClasses, vehicleList, vehicleTypes };
+export { type CarDeliverAgreement, type CarPickupAgreement, type Contract, type CreateDamageParams, type CreateDamageResponse, type CreateReservationParams, type CreateReservationResponse, type CreateUserParams, type CreateUserResponse, type CreateVehicleParams, type CreateVehicleResponse, type Damage, type DriversLicense, type DriversLicenseLight, type FirestoreCollection, type GetReservationsParams, type GetReservationsResponse, type GetVehicleInfoParams, type GetVehicleInfoResponse, type Reservation, type ResponseCode, type SetPaymentStatusParams, type SetPaymentStatusResponse, type Subset, type UpdateProfileParams, type UpdateProfileResponse, type UpdateVehicleParams, type UpdateVehicleResponse, type User, type UserStoragePath, type Vehicle, type VehicleClasses, type VehicleType, type WhereClause, type WhereFilterOpType, callFunction, errorCodes, firestoreCollections, formatDate, getDocsWhere, internalErrorCodes, successCodes, timestampToDate, useFetchDoc, useFetchDocs, useFetchDocsWhere, useScrollToTop, userStoragePath, vehicleClasses, vehicleList, vehicleTypes };

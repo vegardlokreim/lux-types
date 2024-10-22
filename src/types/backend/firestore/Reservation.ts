@@ -2,6 +2,8 @@ import { Timestamp } from "firebase-admin/firestore";
 import { User } from "./User";
 import { Vehicle } from "./Vehicle";
 import { Contract } from "./Contract";
+import { CarPickupAgreement } from "./CarPickupAgreement";
+import { CarDeliverAgreement } from "./CarDeliverAgreement";
 
 export type Reservation = {
     id: string;
@@ -34,8 +36,11 @@ export type Reservation = {
 
     contract: Contract["id"];
 
+    carPickupAgreement?: CarPickupAgreement["id"];
+    carDeliverAgreement?: CarDeliverAgreement["id"];
+
     includedKm: number;
     additionalKm: number;
-    
+
     contractUrl?: string;
 }
