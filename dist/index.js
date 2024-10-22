@@ -44,25 +44,23 @@ var vehicleTypes = ["car", "bike", "bus"];
 
 // src/functions/getDocsWhere.ts
 var import_firestore = require("firebase/firestore");
-async function getDocsWhere(db, collectionName, whereClauses, dontThrow = true) {
-  const collectionRef = (0, import_firestore.collection)(db, collectionName);
-  let q = (0, import_firestore.query)(collectionRef);
-  whereClauses.forEach(([field, op, value]) => {
-    q = (0, import_firestore.query)(q, (0, import_firestore.where)(field, op, value));
-  });
+async function getDocsWhere(db, collectionName, whereClauses) {
   try {
-    const querySnapshot = await (0, import_firestore.getDocs)(q);
-    if (querySnapshot.empty && !dontThrow) throw new Error(`No documents found in collection ${collectionName} with the provided criteria`);
-    return querySnapshot.docs.map((doc2) => ({
-      ref: doc2,
-      data: doc2.data()
-    }));
-  } catch (error) {
-    if (dontThrow) {
-      console.warn(`Error fetching documents from collection ${collectionName}:`, error);
+    const collectionRef = (0, import_firestore.collection)(db, collectionName);
+    const constraints = whereClauses.map(
+      ({ field, operator, value }) => (0, import_firestore.where)(field, operator, value)
+    );
+    const queryRef = (0, import_firestore.query)(collectionRef, ...constraints);
+    const snapshot = await (0, import_firestore.getDocs)(queryRef);
+    if (snapshot.empty) {
       return [];
     }
-    throw error;
+    return snapshot.docs.map((doc2) => ({
+      id: doc2.id,
+      data: { ...doc2.data(), id: doc2.id }
+    }));
+  } catch (error) {
+    throw new Error(`Error in getDocsWhere: ${error}`);
   }
 }
 
@@ -100,99 +98,150 @@ function useScrollToTop() {
 
 // src/functions/hooks/useFetchDocsWhere.tsx
 var import_react2 = require("react");
-function useFetchDocsWhere(db, collectionName, whereClauses, setData, dependencies = [], setError) {
+function useFetchDocsWhere(db, collectionName, whereClauses, setExternalData, dependencies = []) {
+  const [internalData, setInternalData] = (0, import_react2.useState)();
+  const [error, setError] = (0, import_react2.useState)();
   const [isLoading, setIsLoading] = (0, import_react2.useState)(true);
   const fetchDocs = (0, import_react2.useCallback)(async () => {
     setIsLoading(true);
+    setError(void 0);
     try {
       const docs = await getDocsWhere(db, collectionName, whereClauses);
-      setData(docs.map((doc2) => doc2.data));
-      setError == null ? void 0 : setError(void 0);
-      return docs;
+      if (docs.length > 0) {
+        const newData = docs.map((doc2) => doc2.data);
+        setInternalData(newData);
+        setExternalData == null ? void 0 : setExternalData(newData);
+        return docs;
+      } else {
+        const newData = [];
+        setInternalData(newData);
+        setExternalData == null ? void 0 : setExternalData(newData);
+        setError(`No documents found in ${collectionName} matching the specified criteria`);
+        return null;
+      }
     } catch (err) {
-      setError == null ? void 0 : setError(
+      const newData = void 0;
+      setInternalData(newData);
+      setExternalData == null ? void 0 : setExternalData(newData);
+      setError(
         `Error while fetching docs from collection ${collectionName} where ${JSON.stringify(whereClauses)}. Error: ${err}`
       );
       throw err;
     } finally {
       setIsLoading(false);
     }
-  }, [db, collectionName, JSON.stringify(whereClauses), setData, setError]);
+  }, [db, collectionName, JSON.stringify(whereClauses), setExternalData]);
   (0, import_react2.useEffect)(() => {
     fetchDocs();
   }, [fetchDocs, ...dependencies]);
-  return { refetch: fetchDocs, isLoading };
+  return {
+    data: internalData,
+    error,
+    isLoading,
+    refetch: fetchDocs
+  };
 }
 
 // src/functions/hooks/useFetchDocs.tsx
 var import_react3 = require("react");
 var import_firestore2 = require("firebase/firestore");
-function useFetchDocs(db, collectionName, setData, setError) {
+function useFetchDocs(db, collectionName, queryConstraints = [], setExternalData) {
+  const [internalData, setInternalData] = (0, import_react3.useState)();
+  const [error, setError] = (0, import_react3.useState)();
   const [isLoading, setIsLoading] = (0, import_react3.useState)(true);
   const fetchDocs = (0, import_react3.useCallback)(async () => {
     setIsLoading(true);
+    setError(void 0);
     try {
-      const snap = await (0, import_firestore2.getDocs)((0, import_firestore2.collection)(db, collectionName));
-      if (snap.docs.length) {
-        const data = snap.docs.map((doc2) => doc2.data());
-        setData(data);
-        setError(void 0);
-        return data;
+      const collectionRef = (0, import_firestore2.collection)(db, collectionName);
+      const queryRef = (0, import_firestore2.query)(collectionRef, ...queryConstraints);
+      const snapshot = await (0, import_firestore2.getDocs)(queryRef);
+      if (!snapshot.empty) {
+        const newData = snapshot.docs.map((doc2) => ({
+          id: doc2.id,
+          ...doc2.data()
+        }));
+        setInternalData(newData);
+        setExternalData == null ? void 0 : setExternalData(newData);
+        return newData;
       } else {
-        setData([]);
-        setError(`No documents in ${collectionName}`);
-        return [];
+        const newData = [];
+        setInternalData(newData);
+        setExternalData == null ? void 0 : setExternalData(newData);
+        setError(`No documents found in ${collectionName}`);
+        return null;
       }
     } catch (err) {
-      setError(`Error fetching document: ${err}`);
+      const newData = void 0;
+      setInternalData(newData);
+      setExternalData == null ? void 0 : setExternalData(newData);
+      setError(`Error fetching documents: ${err}`);
       throw err;
     } finally {
       setIsLoading(false);
     }
-  }, [db, collectionName, setData, setError]);
+  }, [db, collectionName, queryConstraints, setExternalData]);
   (0, import_react3.useEffect)(() => {
     fetchDocs();
   }, [fetchDocs]);
-  return { refetch: fetchDocs, isLoading };
+  return {
+    data: internalData,
+    error,
+    isLoading,
+    refetch: fetchDocs
+  };
 }
 
 // src/functions/hooks/useFetchDoc.tsx
 var import_react4 = require("react");
 var import_firestore3 = require("firebase/firestore");
-function useFetchDoc(db, collectionName, docId, setData, setError) {
+function useFetchDoc(db, collectionName, docId, setExternalData) {
+  const [internalData, setInternalData] = (0, import_react4.useState)();
+  const [error, setError] = (0, import_react4.useState)();
   const [isLoading, setIsLoading] = (0, import_react4.useState)(true);
   const fetchDocData = (0, import_react4.useCallback)(async () => {
     setIsLoading(true);
+    setError(void 0);
     try {
       if (!docId) {
-        setData(void 0);
-        setError == null ? void 0 : setError(void 0);
+        const newData = void 0;
+        setInternalData(newData);
+        setExternalData == null ? void 0 : setExternalData(newData);
         return null;
       }
       const docRef = (0, import_firestore3.doc)(db, collectionName, docId);
       const docSnapshot = await (0, import_firestore3.getDoc)(docRef);
       if (docSnapshot.exists()) {
-        const data = docSnapshot.data();
-        setData(data);
-        setError == null ? void 0 : setError(void 0);
-        return data;
+        const newData = docSnapshot.data();
+        setInternalData(newData);
+        setExternalData == null ? void 0 : setExternalData(newData);
+        return newData;
       } else {
-        setData(void 0);
-        setError == null ? void 0 : setError(`Document with ID ${docId} not found in ${collectionName}`);
+        const newData = void 0;
+        setInternalData(newData);
+        setExternalData == null ? void 0 : setExternalData(newData);
+        setError(`Document with ID ${docId} not found in ${collectionName}`);
         return null;
       }
     } catch (err) {
-      setData(void 0);
-      setError == null ? void 0 : setError(`Error fetching document: ${err}`);
+      const newData = void 0;
+      setInternalData(newData);
+      setExternalData == null ? void 0 : setExternalData(newData);
+      setError(`Error fetching document: ${err}`);
       throw err;
     } finally {
       setIsLoading(false);
     }
-  }, [db, collectionName, docId, setData, setError]);
+  }, [db, collectionName, docId, setExternalData]);
   (0, import_react4.useEffect)(() => {
     fetchDocData();
   }, [fetchDocData]);
-  return { refetch: fetchDocData, isLoading };
+  return {
+    data: internalData,
+    error,
+    isLoading,
+    refetch: fetchDocData
+  };
 }
 
 // src/types/backend/consts.ts

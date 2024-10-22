@@ -20,7 +20,7 @@ export { Damage } from './types/backend/firestore/Damage';
 export { Contract } from './types/backend/firestore/Contract';
 export { CarPickupAgreement } from './types/backend/firestore/CarPickupAgreement';
 export { CarDeliverAgreement } from './types/backend/firestore/CarDeliverAgreement';
-export { WhereFilterOpType, WhereClause } from './functions/getDocsWhere';
+export { WhereClause } from './functions/getDocsWhere';
 
 
 // functions

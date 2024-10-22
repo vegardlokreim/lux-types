@@ -2,21 +2,34 @@ import { useEffect, useCallback, useState } from "react";
 import { doc, Firestore, getDoc } from "firebase/firestore";
 import { FirestoreCollection } from "../../types/comonTypes";
 
+type SetDataFunction<T> = React.Dispatch<React.SetStateAction<T | undefined>> | ((data: T | undefined) => void);
+
+interface UseFetchDocResult<T> {
+    data: T | undefined;
+    error: string | undefined;
+    isLoading: boolean;
+    refetch: () => Promise<T | null>;
+}
+
 export function useFetchDoc<T>(
     db: Firestore,
     collectionName: FirestoreCollection,
     docId: string | undefined,
-    setData: React.Dispatch<React.SetStateAction<T | undefined>>,
-    setError?: React.Dispatch<React.SetStateAction<string | undefined>>,
-) {
+    setExternalData?: SetDataFunction<T>,
+): UseFetchDocResult<T> {
+    const [internalData, setInternalData] = useState<T>();
+    const [error, setError] = useState<string>();
     const [isLoading, setIsLoading] = useState(true);
 
     const fetchDocData = useCallback(async () => {
         setIsLoading(true);
+        setError(undefined);
+
         try {
             if (!docId) {
-                setData(undefined);
-                setError?.(undefined);
+                const newData = undefined;
+                setInternalData(newData);
+                setExternalData?.(newData);
                 return null;
             }
 
@@ -24,27 +37,36 @@ export function useFetchDoc<T>(
             const docSnapshot = await getDoc(docRef);
 
             if (docSnapshot.exists()) {
-                const data = docSnapshot.data() as T;
-                setData(data);
-                setError?.(undefined);
-                return data;
+                const newData = docSnapshot.data() as T;
+                setInternalData(newData);
+                setExternalData?.(newData);
+                return newData;
             } else {
-                setData(undefined);
-                setError?.(`Document with ID ${docId} not found in ${collectionName}`);
+                const newData = undefined;
+                setInternalData(newData);
+                setExternalData?.(newData);
+                setError(`Document with ID ${docId} not found in ${collectionName}`);
                 return null;
             }
         } catch (err) {
-            setData(undefined);
-            setError?.(`Error fetching document: ${err}`);
+            const newData = undefined;
+            setInternalData(newData);
+            setExternalData?.(newData);
+            setError(`Error fetching document: ${err}`);
             throw err;
         } finally {
             setIsLoading(false);
         }
-    }, [db, collectionName, docId, setData, setError]);
+    }, [db, collectionName, docId, setExternalData]);
 
     useEffect(() => {
         fetchDocData();
     }, [fetchDocData]);
 
-    return { refetch: fetchDocData, isLoading };
+    return {
+        data: internalData,
+        error,
+        isLoading,
+        refetch: fetchDocData,
+    };
 }

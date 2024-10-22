@@ -1,7 +1,6 @@
 import { Timestamp } from 'firebase-admin/firestore';
-import { WhereFilterOp, Firestore, QueryDocumentSnapshot, DocumentData } from 'firebase/firestore';
-import * as _firebase_firestore from '@firebase/firestore';
-import React$1 from 'react';
+import { WhereFilterOp, Firestore, QueryConstraint } from 'firebase/firestore';
+import { DependencyList } from 'react';
 
 declare const successCodes: readonly [201, 200];
 declare const errorCodes: readonly [404];
@@ -283,15 +282,15 @@ type DriversLicenseLight = {
     updatedAt: Timestamp;
 };
 
-type WhereFilterOpType<T> = T extends Array<infer _U> ? "array-contains" | "array-contains-any" | WhereFilterOp : WhereFilterOp;
 type WhereClause<T> = {
-    [K in keyof T]: [K, WhereFilterOpType<T[K]>, T[K] extends Array<infer U> ? U : T[K]];
-}[keyof T];
-type ReturnType<DocumentType> = Promise<{
-    ref: QueryDocumentSnapshot<DocumentData, DocumentData>;
-    data: DocumentType;
-}[]>;
-declare function getDocsWhere<DocumentType>(db: Firestore, collectionName: FirestoreCollection, whereClauses: WhereClause<DocumentType>[], dontThrow?: boolean): ReturnType<DocumentType>;
+    field: keyof T;
+    operator: WhereFilterOp;
+    value: any;
+};
+declare function getDocsWhere<T>(db: Firestore, collectionName: FirestoreCollection, whereClauses: WhereClause<T>[]): Promise<Array<{
+    id: string;
+    data: T;
+}>>;
 
 declare function timestampToDate(timestamp: Timestamp | undefined | null, throwError?: boolean): Date;
 
@@ -301,24 +300,36 @@ declare function callFunction<P, R>(name: string, params?: P): Promise<R>;
 
 declare function useScrollToTop(): void;
 
-declare function useFetchDocsWhere<T>(db: Firestore, collectionName: FirestoreCollection, whereClauses: WhereClause<T>[], setData: React$1.Dispatch<React$1.SetStateAction<T[] | undefined>>, dependencies?: any[], setError?: React$1.Dispatch<React$1.SetStateAction<string | undefined>>): {
-    refetch: () => Promise<{
-        ref: _firebase_firestore.QueryDocumentSnapshot<_firebase_firestore.DocumentData, _firebase_firestore.DocumentData>;
+type SetDataFunction$2<T> = React.Dispatch<React.SetStateAction<T[] | undefined>> | ((data: T[] | undefined) => void);
+interface UseFetchDocsWhereResult<T> {
+    data: T[] | undefined;
+    error: string | undefined;
+    isLoading: boolean;
+    refetch: () => Promise<Array<{
+        id: string;
         data: T;
-    }[]>;
-    isLoading: boolean;
-};
+    }> | null>;
+}
+declare function useFetchDocsWhere<T>(db: Firestore, collectionName: FirestoreCollection, whereClauses: WhereClause<T>[], setExternalData?: SetDataFunction$2<T>, dependencies?: DependencyList): UseFetchDocsWhereResult<T>;
 
-declare function useFetchDocs<T>(db: Firestore, collectionName: FirestoreCollection, setData: React$1.Dispatch<React$1.SetStateAction<T[]>> | React$1.Dispatch<React$1.SetStateAction<T[] | undefined>>, setError: React$1.Dispatch<React$1.SetStateAction<string | undefined>>): {
-    refetch: () => Promise<T[]>;
+type SetDataFunction$1<T> = React.Dispatch<React.SetStateAction<T[] | undefined>> | ((data: T[] | undefined) => void);
+interface UseFetchDocsResult<T> {
+    data: T[] | undefined;
+    error: string | undefined;
     isLoading: boolean;
-};
+    refetch: () => Promise<T[] | null>;
+}
+declare function useFetchDocs<T>(db: Firestore, collectionName: FirestoreCollection, queryConstraints?: QueryConstraint[], setExternalData?: SetDataFunction$1<T>): UseFetchDocsResult<T>;
 
-declare function useFetchDoc<T>(db: Firestore, collectionName: FirestoreCollection, docId: string | undefined, setData: React.Dispatch<React.SetStateAction<T | undefined>>, setError?: React.Dispatch<React.SetStateAction<string | undefined>>): {
+type SetDataFunction<T> = React.Dispatch<React.SetStateAction<T | undefined>> | ((data: T | undefined) => void);
+interface UseFetchDocResult<T> {
+    data: T | undefined;
+    error: string | undefined;
+    isLoading: boolean;
     refetch: () => Promise<T | null>;
-    isLoading: boolean;
-};
+}
+declare function useFetchDoc<T>(db: Firestore, collectionName: FirestoreCollection, docId: string | undefined, setExternalData?: SetDataFunction<T>): UseFetchDocResult<T>;
 
 declare const vehicleList: readonly ["type", "someType"];
 
-export { type CarDeliverAgreement, type CarPickupAgreement, type Contract, type CreateDamageParams, type CreateDamageResponse, type CreateReservationParams, type CreateReservationResponse, type CreateUserParams, type CreateUserResponse, type CreateVehicleParams, type CreateVehicleResponse, type Damage, type DriversLicense, type DriversLicenseLight, type FirestoreCollection, type GetReservationsParams, type GetReservationsResponse, type GetVehicleInfoParams, type GetVehicleInfoResponse, type Reservation, type ResponseCode, type SetPaymentStatusParams, type SetPaymentStatusResponse, type Subset, type UpdateProfileParams, type UpdateProfileResponse, type UpdateVehicleParams, type UpdateVehicleResponse, type User, type UserStoragePath, type Vehicle, type VehicleClasses, type VehicleType, type WhereClause, type WhereFilterOpType, callFunction, errorCodes, firestoreCollections, formatDate, getDocsWhere, internalErrorCodes, successCodes, timestampToDate, useFetchDoc, useFetchDocs, useFetchDocsWhere, useScrollToTop, userStoragePath, vehicleClasses, vehicleList, vehicleTypes };
+export { type CarDeliverAgreement, type CarPickupAgreement, type Contract, type CreateDamageParams, type CreateDamageResponse, type CreateReservationParams, type CreateReservationResponse, type CreateUserParams, type CreateUserResponse, type CreateVehicleParams, type CreateVehicleResponse, type Damage, type DriversLicense, type DriversLicenseLight, type FirestoreCollection, type GetReservationsParams, type GetReservationsResponse, type GetVehicleInfoParams, type GetVehicleInfoResponse, type Reservation, type ResponseCode, type SetPaymentStatusParams, type SetPaymentStatusResponse, type Subset, type UpdateProfileParams, type UpdateProfileResponse, type UpdateVehicleParams, type UpdateVehicleResponse, type User, type UserStoragePath, type Vehicle, type VehicleClasses, type VehicleType, type WhereClause, callFunction, errorCodes, firestoreCollections, formatDate, getDocsWhere, internalErrorCodes, successCodes, timestampToDate, useFetchDoc, useFetchDocs, useFetchDocsWhere, useScrollToTop, userStoragePath, vehicleClasses, vehicleList, vehicleTypes };

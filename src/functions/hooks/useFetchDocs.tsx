@@ -1,41 +1,70 @@
-import React, { useEffect, useCallback, useState } from "react";
-import { collection, Firestore, getDocs } from "firebase/firestore";
+import { useEffect, useCallback, useState } from "react";
+import { collection, Firestore, getDocs, QueryConstraint, query } from "firebase/firestore";
 import { FirestoreCollection } from "../../types/comonTypes";
+
+type SetDataFunction<T> = React.Dispatch<React.SetStateAction<T[] | undefined>> | ((data: T[] | undefined) => void);
+
+interface UseFetchDocsResult<T> {
+    data: T[] | undefined;
+    error: string | undefined;
+    isLoading: boolean;
+    refetch: () => Promise<T[] | null>;
+}
 
 export function useFetchDocs<T>(
     db: Firestore,
     collectionName: FirestoreCollection,
-    setData: React.Dispatch<React.SetStateAction<T[]>> | React.Dispatch<React.SetStateAction<T[] | undefined>>,
-    setError: React.Dispatch<React.SetStateAction<string | undefined>>,
-) {
+    queryConstraints: QueryConstraint[] = [],
+    setExternalData?: SetDataFunction<T>,
+): UseFetchDocsResult<T> {
+    const [internalData, setInternalData] = useState<T[]>();
+    const [error, setError] = useState<string>();
     const [isLoading, setIsLoading] = useState(true);
 
     const fetchDocs = useCallback(async () => {
         setIsLoading(true);
-        try {
-            const snap = await getDocs(collection(db, collectionName));
+        setError(undefined);
 
-            if (snap.docs.length) {
-                const data = snap.docs.map(doc => doc.data() as T);
-                setData(data);
-                setError(undefined);
-                return data;
+        try {
+            const collectionRef = collection(db, collectionName);
+            const queryRef = query(collectionRef, ...queryConstraints);
+            const snapshot = await getDocs(queryRef);
+
+            if (!snapshot.empty) {
+                const newData = snapshot.docs.map(doc => ({
+                    id: doc.id,
+                    ...doc.data()
+                }) as T);
+
+                setInternalData(newData);
+                setExternalData?.(newData);
+                return newData;
             } else {
-                setData([]);
-                setError(`No documents in ${collectionName}`);
-                return [];
+                const newData: T[] = [];
+                setInternalData(newData);
+                setExternalData?.(newData);
+                setError(`No documents found in ${collectionName}`);
+                return null;
             }
         } catch (err) {
-            setError(`Error fetching document: ${err}`);
+            const newData = undefined;
+            setInternalData(newData);
+            setExternalData?.(newData);
+            setError(`Error fetching documents: ${err}`);
             throw err;
         } finally {
             setIsLoading(false);
         }
-    }, [db, collectionName, setData, setError]);
+    }, [db, collectionName, queryConstraints, setExternalData]);
 
     useEffect(() => {
         fetchDocs();
     }, [fetchDocs]);
 
-    return { refetch: fetchDocs, isLoading };
+    return {
+        data: internalData,
+        error,
+        isLoading,
+        refetch: fetchDocs,
+    };
 }
