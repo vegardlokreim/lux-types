@@ -50,6 +50,8 @@ export type Vehicle = {
 
     damages: Array<Damage["id"]>
 
+    images?: Array<string>;
+
     vin: string;
 
 }

@@ -191,6 +191,7 @@ type Vehicle = {
     createdAt: Timestamp;
     updatedAt: Timestamp;
     damages: Array<Damage["id"]>;
+    images?: Array<string>;
     vin: string;
 };
 
