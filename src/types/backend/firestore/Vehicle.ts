@@ -26,9 +26,12 @@ export type Vehicle = {
   hp: number
   engineVolume: number
   volumeTank: number
+  fuelConsumption: number
   l: number
   w: number
   h: number
+
+  weight: number
 
   prDay: number
   prHour: number
