@@ -1,5 +1,6 @@
 import { Timestamp } from "firebase-admin/firestore"
 
+import { Location } from "../../comonTypes"
 import { Damage } from "./Damage"
 import { Reservation } from "./Reservation"
 import { VehicleType } from "./VehicleTypes"
@@ -45,9 +46,9 @@ export type Vehicle = {
 
   securityDeposit: number
 
-  deliverAt: string
+  deliverAt: Location
 
-  pickupAt: string
+  pickupAt: Location
 
   reservations: Array<Reservation["id"]>
   unavailableDates?: Array<{

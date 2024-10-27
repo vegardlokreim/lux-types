@@ -11,10 +11,43 @@ declare const userStoragePath: readonly ["profilePicture", "driversLicense", "si
 type Subset<T> = {
     [A in keyof T]?: T[A] extends object ? Subset<T[A]> : T[A] extends object | null ? Subset<T[A]> | null : T[A] extends object | null | undefined ? Subset<T[A]> | null | undefined : T[A];
 };
-type FirestoreCollection = typeof firestoreCollections[number];
-type UserStoragePath = typeof userStoragePath[number];
+type FirestoreCollection = (typeof firestoreCollections)[number];
+type UserStoragePath = (typeof userStoragePath)[number];
+type Location = {
+    address: string;
+    lat: number;
+    lng: number;
+};
 
 type ResponseCode = typeof successCodes[number] | typeof errorCodes[number] | typeof internalErrorCodes[number];
+
+type CarDeliverAgreement = {
+    id: string;
+    vehicleId: Vehicle["id"];
+    userId: User["id"];
+    signedAt: Timestamp;
+    damages: Damage[];
+    reservation: Reservation["id"];
+    signatureUrl: string;
+    url?: string;
+    odometer: number;
+    fuelLevel?: number;
+    images: string[];
+};
+
+type CarPickupAgreement = {
+    id: string;
+    vehicleId: Vehicle["id"];
+    userId: User["id"];
+    signedAt: Timestamp;
+    damages: Damage[];
+    reservation: Reservation["id"];
+    signatureUrl: string;
+    url?: string;
+    odometer: number;
+    fuelLevel?: number;
+    images: string[];
+};
 
 type Contract = {
     id: string;
@@ -40,34 +73,6 @@ type Contract = {
     contractUrl?: string;
 };
 
-type CarPickupAgreement = {
-    id: string;
-    vehicleId: Vehicle["id"];
-    userId: User["id"];
-    signedAt: Timestamp;
-    damages: Damage[];
-    reservation: Reservation["id"];
-    signatureUrl: string;
-    url?: string;
-    odometer: number;
-    fuelLevel?: number;
-    images: string[];
-};
-
-type CarDeliverAgreement = {
-    id: string;
-    vehicleId: Vehicle["id"];
-    userId: User["id"];
-    signedAt: Timestamp;
-    damages: Damage[];
-    reservation: Reservation["id"];
-    signatureUrl: string;
-    url?: string;
-    odometer: number;
-    fuelLevel?: number;
-    images: string[];
-};
-
 type Reservation = {
     id: string;
     user: User["id"];
@@ -84,6 +89,8 @@ type Reservation = {
         days: number;
         hours: number;
     };
+    agreedPickupLocation: Location;
+    agreedDeliverLocation: Location;
     createdAt: Timestamp;
     updatedAt: Timestamp;
     contract: Contract["id"];
@@ -191,8 +198,8 @@ type Vehicle = {
     cylinderArrangement: string | null;
     displayTariff: "PR_DAY" | "PR_HOUR" | "PR_WEEK" | "PR_MONTH";
     securityDeposit: number;
-    deliverAt: string;
-    pickupAt: string;
+    deliverAt: Location;
+    pickupAt: Location;
     reservations: Array<Reservation["id"]>;
     unavailableDates?: Array<{
         from: Timestamp;
@@ -282,6 +289,38 @@ type GetReservationsResponse = {
     }>;
 };
 
+interface InsurancePlan {
+    id: string;
+    name: string;
+    description: string;
+    coverage: {
+        liability: number;
+        collision: boolean;
+        theft: boolean;
+        personalEffects: boolean;
+    };
+    dailyRate: number;
+}
+interface LocationService {
+    id: string;
+    type: "PICKUP" | "DELIVERY";
+    location: {
+        address: string;
+        latitude: number;
+        longitude: number;
+    };
+    basePrice: number;
+    pricePerKm: number;
+}
+interface RentalExtras {
+    insurancePlanId?: string;
+    customPickup?: LocationService;
+    customDelivery?: LocationService;
+    additionalDrivers?: number;
+    childSeats?: number;
+    gpsDevice?: boolean;
+}
+
 type DriversLicenseLight = {
     id: string;
     issued: Date;
@@ -337,4 +376,4 @@ declare function useFetchDoc<T>(db: Firestore, collectionName: FirestoreCollecti
 
 declare const vehicleList: readonly ["type", "someType"];
 
-export { type CarDeliverAgreement, type CarPickupAgreement, type Contract, type CreateDamageParams, type CreateDamageResponse, type CreateReservationParams, type CreateReservationResponse, type CreateUserParams, type CreateUserResponse, type CreateVehicleParams, type CreateVehicleResponse, type Damage, type DriversLicense, type DriversLicenseLight, type FirestoreCollection, type GetReservationsParams, type GetReservationsResponse, type GetVehicleInfoParams, type GetVehicleInfoResponse, type Reservation, type ResponseCode, type SetPaymentStatusParams, type SetPaymentStatusResponse, type Subset, type UpdateProfileParams, type UpdateProfileResponse, type UpdateVehicleParams, type UpdateVehicleResponse, type User, type UserStoragePath, type Vehicle, type VehicleClasses, type VehicleType, type WhereClause, type WhereFilterOpType, callFunction, errorCodes, firestoreCollections, formatDate, getDocsWhere, internalErrorCodes, successCodes, timestampToDate, useFetchDoc, useFetchDocs, useFetchDocsWhere, useScrollToTop, userStoragePath, vehicleClasses, vehicleList, vehicleTypes };
+export { type CarDeliverAgreement, type CarPickupAgreement, type Contract, type CreateDamageParams, type CreateDamageResponse, type CreateReservationParams, type CreateReservationResponse, type CreateUserParams, type CreateUserResponse, type CreateVehicleParams, type CreateVehicleResponse, type Damage, type DriversLicense, type DriversLicenseLight, type FirestoreCollection, type GetReservationsParams, type GetReservationsResponse, type GetVehicleInfoParams, type GetVehicleInfoResponse, type InsurancePlan, type Location, type LocationService, type RentalExtras, type Reservation, type ResponseCode, type SetPaymentStatusParams, type SetPaymentStatusResponse, type Subset, type UpdateProfileParams, type UpdateProfileResponse, type UpdateVehicleParams, type UpdateVehicleResponse, type User, type UserStoragePath, type Vehicle, type VehicleClasses, type VehicleType, type WhereClause, type WhereFilterOpType, callFunction, errorCodes, firestoreCollections, formatDate, getDocsWhere, internalErrorCodes, successCodes, timestampToDate, useFetchDoc, useFetchDocs, useFetchDocsWhere, useScrollToTop, userStoragePath, vehicleClasses, vehicleList, vehicleTypes };

@@ -1,5 +1,5 @@
 // types
-export { Subset, FirestoreCollection, UserStoragePath } from './types/comonTypes';
+export { Subset, FirestoreCollection, UserStoragePath, Location } from './types/comonTypes';
 export { ResponseCode } from './types/backend/ResponseCodes';
 export { UpdateVehicleParams, UpdateVehicleResponse } from './types/backend/functions/updateVehicle';
 export { UpdateProfileParams, UpdateProfileResponse } from './types/backend/functions/updateProfile';
@@ -10,6 +10,7 @@ export { CreateUserParams, CreateUserResponse } from './types/backend/functions/
 export { CreateReservationParams, CreateReservationResponse } from './types/backend/functions/createReservation.types';
 export { CreateDamageParams, CreateDamageResponse } from './types/backend/functions/createDamage.types';
 export { GetReservationsParams, GetReservationsResponse } from './types/backend/functions/GetReservations.types';
+export { InsurancePlan, LocationService, RentalExtras } from './types/backend/firestore/extraSerivces.types';
 export { VehicleType } from './types/backend/firestore/VehicleTypes';
 export { Vehicle } from './types/backend/firestore/Vehicle';
 export { User } from './types/backend/firestore/User';

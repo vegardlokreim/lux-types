@@ -1,46 +1,49 @@
-import { Timestamp } from "firebase-admin/firestore";
-import { User } from "./User";
-import { Vehicle } from "./Vehicle";
-import { Contract } from "./Contract";
-import { CarPickupAgreement } from "./CarPickupAgreement";
-import { CarDeliverAgreement } from "./CarDeliverAgreement";
+import { Timestamp } from "firebase-admin/firestore"
+
+import { Location } from "../../comonTypes"
+import { CarDeliverAgreement } from "./CarDeliverAgreement"
+import { CarPickupAgreement } from "./CarPickupAgreement"
+import { Contract } from "./Contract"
+import { User } from "./User"
+import { Vehicle } from "./Vehicle"
 
 export type Reservation = {
-    id: string;
+  id: string
 
-    user: User["id"];
-    vehicle: Vehicle["id"];
+  user: User["id"]
+  vehicle: Vehicle["id"]
 
-    userDoc: User;
-    vehicleDoc: Vehicle;
+  userDoc: User
+  vehicleDoc: Vehicle
 
-    isPaid: boolean;
+  isPaid: boolean
 
+  subtotal: number
+  securityAmount: number
 
-    subtotal: number;
-    securityAmount: number;
+  confirmed: boolean
 
-    confirmed: boolean;
+  to: Timestamp
+  from: Timestamp
 
+  duration: {
+    days: number
+    hours: number
+  }
 
-    to: Timestamp;
-    from: Timestamp;
+  agreedPickupLocation: Location
+  agreedDeliverLocation: Location
 
-    duration: {
-        days: number;
-        hours: number;
-    }
+  createdAt: Timestamp
+  updatedAt: Timestamp
 
-    createdAt: Timestamp;
-    updatedAt: Timestamp;
+  contract: Contract["id"]
 
-    contract: Contract["id"];
+  carPickupAgreement?: CarPickupAgreement["id"]
+  carDeliverAgreement?: CarDeliverAgreement["id"]
 
-    carPickupAgreement?: CarPickupAgreement["id"];
-    carDeliverAgreement?: CarDeliverAgreement["id"];
+  includedKm: number
+  additionalKm: number
 
-    includedKm: number;
-    additionalKm: number;
-
-    contractUrl?: string;
+  contractUrl?: string
 }
