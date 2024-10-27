@@ -178,6 +178,9 @@ type Vehicle = {
     hp: number;
     engineVolume: number;
     volumeTank: number;
+    l: number;
+    w: number;
+    h: number;
     prDay: number;
     prHour: number;
     prWeek: number;
