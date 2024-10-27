@@ -187,6 +187,8 @@ type Vehicle = {
     prHour: number;
     prWeek: number;
     prMonth: number;
+    cylinderCount: number;
+    cylinderArrangement: string | null;
     displayTariff: "PR_DAY" | "PR_HOUR" | "PR_WEEK" | "PR_MONTH";
     deliverAt: string;
     pickupAt: string;
