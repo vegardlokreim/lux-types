@@ -16,68 +16,6 @@ type UserStoragePath = typeof userStoragePath[number];
 
 type ResponseCode = typeof successCodes[number] | typeof errorCodes[number] | typeof internalErrorCodes[number];
 
-declare const vehicleTypes: readonly ["car", "bike", "bus"];
-type VehicleType = typeof vehicleTypes[number];
-
-declare const vehicleClasses: readonly ["A1", "A", "B", "C1", "C", "D1", "D", "BE", "C1E", "CE", "D1E", "DE", "M", "S", "T"];
-
-type VehicleClasses = typeof vehicleClasses[number];
-type DriversLicense = {
-    id: string;
-    url: string;
-    lastName: string;
-    firstName: string;
-    birthDate: Date;
-    issued: Date;
-    expires: Date;
-    issuedBy: string;
-    pid: string;
-    licenseNumber: string;
-    classes: VehicleClasses[];
-    userId: User["id"];
-    createdAt: Timestamp;
-    updatedAt: Timestamp;
-    isConfirmed: boolean;
-    lastConfirmed: Timestamp;
-};
-
-type User = {
-    id: string;
-    email: string;
-    phone: string;
-    firstName: string;
-    lastName: string;
-    birthDate?: string;
-    reservations: Array<Reservation["id"]>;
-    createdAt: Timestamp;
-    updatedAt: Timestamp;
-    profilePicture?: string;
-    address: {
-        street: string;
-        city: string;
-        zip: string;
-        country: string;
-    };
-    driversLicense?: DriversLicense["id"];
-    clv?: number;
-};
-
-type Damage = {
-    id: string;
-    userId?: User["id"];
-    vehicleId: Vehicle["id"];
-    fixed: boolean;
-    images: string[];
-    description: string;
-    locationCode: string;
-    locationOnCar: string;
-    registeredBy: User["id"];
-    vehicleRegId: Vehicle["regId"];
-    fixedAt?: Timestamp;
-    createdAt: Timestamp;
-    updatedAt: Timestamp;
-};
-
 type Contract = {
     id: string;
     vehicleId: Vehicle["id"];
@@ -156,6 +94,68 @@ type Reservation = {
     contractUrl?: string;
 };
 
+declare const vehicleClasses: readonly ["A1", "A", "B", "C1", "C", "D1", "D", "BE", "C1E", "CE", "D1E", "DE", "M", "S", "T"];
+
+type VehicleClasses = typeof vehicleClasses[number];
+type DriversLicense = {
+    id: string;
+    url: string;
+    lastName: string;
+    firstName: string;
+    birthDate: Date;
+    issued: Date;
+    expires: Date;
+    issuedBy: string;
+    pid: string;
+    licenseNumber: string;
+    classes: VehicleClasses[];
+    userId: User["id"];
+    createdAt: Timestamp;
+    updatedAt: Timestamp;
+    isConfirmed: boolean;
+    lastConfirmed: Timestamp;
+};
+
+type User = {
+    id: string;
+    email: string;
+    phone: string;
+    firstName: string;
+    lastName: string;
+    birthDate?: string;
+    reservations: Array<Reservation["id"]>;
+    createdAt: Timestamp;
+    updatedAt: Timestamp;
+    profilePicture?: string;
+    address: {
+        street: string;
+        city: string;
+        zip: string;
+        country: string;
+    };
+    driversLicense?: DriversLicense["id"];
+    clv?: number;
+};
+
+type Damage = {
+    id: string;
+    userId?: User["id"];
+    vehicleId: Vehicle["id"];
+    fixed: boolean;
+    images: string[];
+    description: string;
+    locationCode: string;
+    locationOnCar: string;
+    registeredBy: User["id"];
+    vehicleRegId: Vehicle["regId"];
+    fixedAt?: Timestamp;
+    createdAt: Timestamp;
+    updatedAt: Timestamp;
+};
+
+declare const vehicleTypes: readonly ["car", "bike", "bus"];
+type VehicleType = typeof vehicleTypes[number];
+
 type Vehicle = {
     id: string;
     type: VehicleType;
@@ -164,6 +164,7 @@ type Vehicle = {
     doors: string;
     tankVolume?: number;
     interiorColor: string;
+    exteriorColor: string;
     category: string;
     bodyType: string;
     brand: string;
@@ -171,6 +172,12 @@ type Vehicle = {
     year: number;
     regId: string;
     thumbnail: string;
+    vin: string;
+    fuelType: "gasoline" | "diesel" | "hybrid" | "electric";
+    wd: "front" | "back" | "4WD" | "AWD";
+    hp: number;
+    engineVolume: number;
+    volumeTank: number;
     prDay: number;
     prHour: number;
     prWeek: number;
@@ -178,21 +185,16 @@ type Vehicle = {
     displayTariff: "PR_DAY" | "PR_HOUR" | "PR_WEEK" | "PR_MONTH";
     deliverAt: string;
     pickupAt: string;
-    exteriorColor: string;
-    hp: number;
     reservations: Array<Reservation["id"]>;
     unavailableDates?: Array<{
         from: Timestamp;
         to: Timestamp;
         reservationId: Reservation["id"];
     }>;
-    fuelType: "gasoline" | "diesel" | "hybrid" | "electric";
-    wd: "front" | "back" | "4WD" | "AWD";
     createdAt: Timestamp;
     updatedAt: Timestamp;
     damages: Array<Damage["id"]>;
     images?: Array<string>;
-    vin: string;
 };
 
 type UpdateVehicleParams = {
