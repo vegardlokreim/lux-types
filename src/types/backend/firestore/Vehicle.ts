@@ -43,6 +43,8 @@ export type Vehicle = {
 
   displayTariff: "PR_DAY" | "PR_HOUR" | "PR_WEEK" | "PR_MONTH"
 
+  securityDeposit: number
+
   deliverAt: string
 
   pickupAt: string

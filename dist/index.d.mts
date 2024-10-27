@@ -190,6 +190,7 @@ type Vehicle = {
     cylinderCount: number;
     cylinderArrangement: string | null;
     displayTariff: "PR_DAY" | "PR_HOUR" | "PR_WEEK" | "PR_MONTH";
+    securityDeposit: number;
     deliverAt: string;
     pickupAt: string;
     reservations: Array<Reservation["id"]>;
