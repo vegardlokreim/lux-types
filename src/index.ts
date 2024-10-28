@@ -1,6 +1,7 @@
 // types
 export { Subset, FirestoreCollection, UserStoragePath, Location } from './types/comonTypes';
 export { ResponseCode } from './types/backend/ResponseCodes';
+export { CreditCheckResponse } from './types/backend/CreditCheckResoponse';
 export { UpdateVehicleParams, UpdateVehicleResponse } from './types/backend/functions/updateVehicle';
 export { UpdateProfileParams, UpdateProfileResponse } from './types/backend/functions/updateProfile';
 export { SetPaymentStatusParams, SetPaymentStatusResponse } from './types/backend/functions/setPaymentStatus';
@@ -36,7 +37,7 @@ export { useFetchDoc } from './functions/hooks/useFetchDoc';
 
 
 // consts
-export { successCodes, errorCodes, internalErrorCodes, firestoreCollections, userStoragePath } from './types/backend/consts';
+export { successCodes, errorCodes, internalErrorCodes, firestoreCollections, userStoragePath, CREDIT_GRADE } from './types/backend/consts';
 export { vehicleTypes } from './types/backend/firestore/VehicleTypes';
 export { vehicleClasses } from './consts/vehicleClasses';
 export { vehicleList } from './consts/vehicles/vehicleList';

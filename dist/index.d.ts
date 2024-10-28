@@ -7,6 +7,7 @@ declare const errorCodes: readonly [404];
 declare const internalErrorCodes: readonly [500];
 declare const firestoreCollections: readonly ["users", "userPermissions", "vehicles", "reservations", "driversLicenses", "damages", "contracts", "carDeliveryAgreements", "carPickupAgreements"];
 declare const userStoragePath: readonly ["profilePicture", "driversLicense", "signatures", "contracts", "carPickupAgreements", "carDeliveryAgreements"];
+declare const CREDIT_GRADE: readonly ["A", "B", "C", "D", "E", "IR", "KS"];
 
 type Subset<T> = {
     [A in keyof T]?: T[A] extends object ? Subset<T[A]> : T[A] extends object | null ? Subset<T[A]> | null : T[A] extends object | null | undefined ? Subset<T[A]> | null | undefined : T[A];
@@ -20,6 +21,25 @@ type Location = {
 };
 
 type ResponseCode = typeof successCodes[number] | typeof errorCodes[number] | typeof internalErrorCodes[number];
+
+type CreditCheckResponse = {
+    /**
+     * Score from 0 - 100, where 100 is the best score
+     */
+    score: number;
+    /**
+     * Credit grade, where A is the best grade
+     */
+    scoreKarakter: (typeof CREDIT_GRADE)[number];
+    /**
+     * Explanation of the credit grade, norewegian text
+     */
+    scoreForklaring: string;
+    /**
+     * Suggested credit limit in norwegian kr
+     */
+    kredittgrense: number;
+};
 
 type CarDeliverAgreement = {
     id: string;
@@ -376,4 +396,4 @@ declare function useFetchDoc<T>(db: Firestore, collectionName: FirestoreCollecti
 
 declare const vehicleList: readonly ["type", "someType"];
 
-export { type CarDeliverAgreement, type CarPickupAgreement, type Contract, type CreateDamageParams, type CreateDamageResponse, type CreateReservationParams, type CreateReservationResponse, type CreateUserParams, type CreateUserResponse, type CreateVehicleParams, type CreateVehicleResponse, type Damage, type DriversLicense, type DriversLicenseLight, type FirestoreCollection, type GetReservationsParams, type GetReservationsResponse, type GetVehicleInfoParams, type GetVehicleInfoResponse, type InsurancePlan, type Location, type LocationService, type RentalExtras, type Reservation, type ResponseCode, type SetPaymentStatusParams, type SetPaymentStatusResponse, type Subset, type UpdateProfileParams, type UpdateProfileResponse, type UpdateVehicleParams, type UpdateVehicleResponse, type User, type UserStoragePath, type Vehicle, type VehicleClasses, type VehicleType, type WhereClause, type WhereFilterOpType, callFunction, errorCodes, firestoreCollections, formatDate, getDocsWhere, internalErrorCodes, successCodes, timestampToDate, useFetchDoc, useFetchDocs, useFetchDocsWhere, useScrollToTop, userStoragePath, vehicleClasses, vehicleList, vehicleTypes };
+export { CREDIT_GRADE, type CarDeliverAgreement, type CarPickupAgreement, type Contract, type CreateDamageParams, type CreateDamageResponse, type CreateReservationParams, type CreateReservationResponse, type CreateUserParams, type CreateUserResponse, type CreateVehicleParams, type CreateVehicleResponse, type CreditCheckResponse, type Damage, type DriversLicense, type DriversLicenseLight, type FirestoreCollection, type GetReservationsParams, type GetReservationsResponse, type GetVehicleInfoParams, type GetVehicleInfoResponse, type InsurancePlan, type Location, type LocationService, type RentalExtras, type Reservation, type ResponseCode, type SetPaymentStatusParams, type SetPaymentStatusResponse, type Subset, type UpdateProfileParams, type UpdateProfileResponse, type UpdateVehicleParams, type UpdateVehicleResponse, type User, type UserStoragePath, type Vehicle, type VehicleClasses, type VehicleType, type WhereClause, type WhereFilterOpType, callFunction, errorCodes, firestoreCollections, formatDate, getDocsWhere, internalErrorCodes, successCodes, timestampToDate, useFetchDoc, useFetchDocs, useFetchDocsWhere, useScrollToTop, userStoragePath, vehicleClasses, vehicleList, vehicleTypes };

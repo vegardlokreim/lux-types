@@ -20,6 +20,7 @@ var __toCommonJS = (mod) => __copyProps(__defProp({}, "__esModule", { value: tru
 // src/index.ts
 var src_exports = {};
 __export(src_exports, {
+  CREDIT_GRADE: () => CREDIT_GRADE,
   callFunction: () => callFunction,
   errorCodes: () => errorCodes,
   firestoreCollections: () => firestoreCollections,
@@ -238,8 +239,26 @@ function useFetchDoc(db, collectionName, docId, setExternalData) {
 var successCodes = [201, 200];
 var errorCodes = [404];
 var internalErrorCodes = [500];
-var firestoreCollections = ["users", "userPermissions", "vehicles", "reservations", "driversLicenses", "damages", "contracts", "carDeliveryAgreements", "carPickupAgreements"];
-var userStoragePath = ["profilePicture", "driversLicense", "signatures", "contracts", "carPickupAgreements", "carDeliveryAgreements"];
+var firestoreCollections = [
+  "users",
+  "userPermissions",
+  "vehicles",
+  "reservations",
+  "driversLicenses",
+  "damages",
+  "contracts",
+  "carDeliveryAgreements",
+  "carPickupAgreements"
+];
+var userStoragePath = [
+  "profilePicture",
+  "driversLicense",
+  "signatures",
+  "contracts",
+  "carPickupAgreements",
+  "carDeliveryAgreements"
+];
+var CREDIT_GRADE = ["A", "B", "C", "D", "E", "IR", "KS"];
 
 // src/consts/vehicleClasses.ts
 var vehicleClasses = ["A1", "A", "B", "C1", "C", "D1", "D", "BE", "C1E", "CE", "D1E", "DE", "M", "S", "T"];
@@ -248,6 +267,7 @@ var vehicleClasses = ["A1", "A", "B", "C1", "C", "D1", "D", "BE", "C1E", "CE", "
 var vehicleList = ["type", "someType"];
 // Annotate the CommonJS export names for ESM import in node:
 0 && (module.exports = {
+  CREDIT_GRADE,
   callFunction,
   errorCodes,
   firestoreCollections,
