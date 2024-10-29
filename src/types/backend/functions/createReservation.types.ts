@@ -3,7 +3,8 @@ import { ResponseCode } from "../ResponseCodes";
 import { Contract } from "../firestore/Contract";
 
 export type CreateReservationParams = {
-    reservation: Omit<Reservation, "id" | "createdAt" | "updatedAt" | "contract">;
+    reservation: Omit<Reservation, "id" | "createdAt" | "updatedAt" | "contract">
+    | Omit<Reservation, "createdAt" | "updatedAt" | "contract">;
     contract?: Omit<Contract, "id">;
 }
 
