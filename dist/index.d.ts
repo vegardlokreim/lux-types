@@ -284,7 +284,7 @@ type CreateUserResponse = {
 
 type CreateReservationParams = {
     reservation: Omit<Reservation, "id" | "createdAt" | "updatedAt" | "contract">;
-    contract: Omit<Contract, "id">;
+    contract?: Omit<Contract, "id">;
 };
 type CreateReservationResponse = {
     code: ResponseCode;
