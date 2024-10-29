@@ -36,6 +36,7 @@ export type Reservation = {
 
   createdAt: Timestamp
   updatedAt: Timestamp
+  createdBy?: User["id"]
 
   contract?: Contract["id"]
   carPickupAgreement?: CarPickupAgreement["id"]
@@ -45,4 +46,5 @@ export type Reservation = {
   additionalKm: number
 
   contractUrl?: string
+
 }

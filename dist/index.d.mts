@@ -113,6 +113,7 @@ type Reservation = {
     agreedDeliverLocation: Location;
     createdAt: Timestamp;
     updatedAt: Timestamp;
+    createdBy?: User["id"];
     contract?: Contract["id"];
     carPickupAgreement?: CarPickupAgreement["id"];
     carDeliverAgreement?: CarDeliverAgreement["id"];
