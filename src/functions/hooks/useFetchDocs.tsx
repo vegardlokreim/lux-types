@@ -1,5 +1,5 @@
 import { useEffect, useCallback, useState } from "react";
-import { collection, Firestore, getDocs, QueryConstraint, query } from "firebase/firestore";
+import { collection, Firestore, getDocs, query } from "firebase/firestore";
 import { FirestoreCollection } from "../../types/comonTypes";
 
 
