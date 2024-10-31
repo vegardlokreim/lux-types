@@ -22,6 +22,13 @@ export type Reservation = {
   subtotal: number
   securityAmount: number
 
+  insurances: {
+    insuranceName: string,
+    insuranceType: string,
+    insuranceAmount: number // price per day
+  }[]
+
+
   confirmed: boolean
 
   to: Timestamp

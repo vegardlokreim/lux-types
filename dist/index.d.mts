@@ -103,6 +103,11 @@ type Reservation = {
     paymentMethod: 'card' | 'cash' | 'invoice';
     subtotal: number;
     securityAmount: number;
+    insurances: {
+        insuranceName: string;
+        insuranceType: string;
+        insuranceAmount: number;
+    }[];
     confirmed: boolean;
     to: Timestamp;
     from: Timestamp;
@@ -220,6 +225,7 @@ type Vehicle = {
     cylinderArrangement: string | null;
     displayTariff: "PR_DAY" | "PR_HOUR" | "PR_WEEK" | "PR_MONTH";
     securityDeposit: number;
+    deductibleAmount: number;
     deliverAt: Location;
     pickupAt: Location;
     reservations: Array<Reservation["id"]>;

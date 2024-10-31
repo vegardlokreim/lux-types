@@ -46,6 +46,8 @@ export type Vehicle = {
 
   securityDeposit: number
 
+  deductibleAmount: number
+
   deliverAt: Location
 
   pickupAt: Location
