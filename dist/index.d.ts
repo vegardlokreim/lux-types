@@ -100,6 +100,7 @@ type Reservation = {
     userDoc: User;
     vehicleDoc: Vehicle;
     isPaid: boolean;
+    paymentMethod: 'card' | 'cash' | 'invoice';
     subtotal: number;
     securityAmount: number;
     confirmed: boolean;

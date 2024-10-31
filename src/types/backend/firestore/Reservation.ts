@@ -17,6 +17,7 @@ export type Reservation = {
   vehicleDoc: Vehicle
 
   isPaid: boolean
+  paymentMethod: 'card' | 'cash' | 'invoice'
 
   subtotal: number
   securityAmount: number
@@ -46,5 +47,4 @@ export type Reservation = {
   additionalKm: number
 
   contractUrl?: string
-
 }
