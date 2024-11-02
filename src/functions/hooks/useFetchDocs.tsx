@@ -1,4 +1,4 @@
-import { useEffect, useCallback, useState } from "react";
+import { useEffect, useCallback, useState, SetStateAction, Dispatch } from "react";
 import { collection, Firestore, getDocs, query } from "firebase/firestore";
 import { FirestoreCollection } from "../../types/comonTypes";
 
@@ -13,7 +13,7 @@ interface UseFetchDocsResult<T> {
 export function useFetchDocs<T>(
     db: Firestore,
     collectionName: FirestoreCollection,
-    setExternalData?: React.Dispatch<React.SetStateAction<T[]>> | React.Dispatch<React.SetStateAction<T[] | undefined>>,
+    setExternalData?: Dispatch<SetStateAction<T[]>> | Dispatch<SetStateAction<T[] | undefined>>,
 ): UseFetchDocsResult<T> {
     const [internalData, setInternalData] = useState<T[]>();
     const [error, setError] = useState<string>();

@@ -1,6 +1,6 @@
 import { Timestamp } from 'firebase-admin/firestore';
 import { WhereFilterOp, Firestore, QueryDocumentSnapshot, DocumentData } from 'firebase/firestore';
-import React$1 from 'react';
+import { Dispatch, SetStateAction } from 'react';
 
 declare const successCodes: readonly [201, 200];
 declare const errorCodes: readonly [404];
@@ -384,7 +384,7 @@ interface UseFetchDocsWhereResult<T> {
     isLoading: boolean;
     refetch: () => Promise<T[] | null>;
 }
-declare function useFetchDocsWhere<T>(db: Firestore, collectionName: FirestoreCollection, whereClauses: WhereClause<T>[], dependencies: any[], setData?: React$1.Dispatch<React$1.SetStateAction<T[] | undefined>>): UseFetchDocsWhereResult<T>;
+declare function useFetchDocsWhere<T>(db: Firestore, collectionName: FirestoreCollection, whereClauses: WhereClause<T>[], dependencies: any[], setData?: Dispatch<SetStateAction<T[] | undefined>>): UseFetchDocsWhereResult<T>;
 
 interface UseFetchDocsResult<T> {
     data: T[] | undefined;
@@ -392,7 +392,7 @@ interface UseFetchDocsResult<T> {
     isLoading: boolean;
     refetch: () => Promise<T[] | null>;
 }
-declare function useFetchDocs<T>(db: Firestore, collectionName: FirestoreCollection, setExternalData?: React.Dispatch<React.SetStateAction<T[]>> | React.Dispatch<React.SetStateAction<T[] | undefined>>): UseFetchDocsResult<T>;
+declare function useFetchDocs<T>(db: Firestore, collectionName: FirestoreCollection, setExternalData?: Dispatch<SetStateAction<T[]>> | Dispatch<SetStateAction<T[] | undefined>>): UseFetchDocsResult<T>;
 
 interface UseFetchDocResult<T> {
     data: T | undefined;
@@ -400,7 +400,7 @@ interface UseFetchDocResult<T> {
     isLoading: boolean;
     refetch: () => Promise<T | null>;
 }
-declare function useFetchDoc<T>(db: Firestore, collectionName: FirestoreCollection, docId: string | undefined, setExternalData?: React.Dispatch<React.SetStateAction<T | undefined>>): UseFetchDocResult<T>;
+declare function useFetchDoc<T>(db: Firestore, collectionName: FirestoreCollection, docId: string | undefined, setExternalData?: Dispatch<SetStateAction<T | undefined>>): UseFetchDocResult<T>;
 
 declare const vehicleList: readonly ["type", "someType"];
 
