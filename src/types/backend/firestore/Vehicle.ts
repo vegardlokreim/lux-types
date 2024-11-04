@@ -65,4 +65,6 @@ export type Vehicle = {
   damages: Array<Damage["id"]>
 
   images?: Array<string>
+
+  kmPrDay?: number
 }

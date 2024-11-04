@@ -238,6 +238,7 @@ type Vehicle = {
     updatedAt: Timestamp;
     damages: Array<Damage["id"]>;
     images?: Array<string>;
+    kmPrDay?: number;
 };
 
 type UpdateVehicleParams = {
