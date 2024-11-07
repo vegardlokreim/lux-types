@@ -53,5 +53,13 @@ export type Reservation = {
   includedKm: number
   additionalKm: number
 
+  isCustomContract?: {
+    custommContract: boolean
+    customSecurityAmount: number
+    customSubtotal: number
+    customIncludedKm: number
+    customMessage: string;
+  }
+
   contractUrl?: string
 }

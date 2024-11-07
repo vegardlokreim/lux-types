@@ -125,6 +125,13 @@ type Reservation = {
     carDeliverAgreement?: CarDeliverAgreement["id"];
     includedKm: number;
     additionalKm: number;
+    isCustomContract?: {
+        custommContract: boolean;
+        customSecurityAmount: number;
+        customSubtotal: number;
+        customIncludedKm: number;
+        customMessage: string;
+    };
     contractUrl?: string;
 };
 
