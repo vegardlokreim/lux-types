@@ -131,7 +131,7 @@ type Reservation = {
         customSubtotal: number;
         customIncludedKm: number;
         customMessage: string;
-        customInsurancTotal: number;
+        customInsuranceTotal: number;
     };
     contractUrl?: string;
 };
